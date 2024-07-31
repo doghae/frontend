@@ -18,7 +18,7 @@ export const Contents = () => {
       <GridItem id="section3" rowSpan={1} backgroundColor={"transparent"}>
         <p>세 번째 컴포넌트</p>
       </GridItem>
-      <GridItem id="section3" rowSpan={1} backgroundColor={"transparent"}>
+      <GridItem id="section4" rowSpan={1} backgroundColor={"transparent"}>
         <p>네 번째 컴포넌트</p>
       </GridItem>
     </Grid>

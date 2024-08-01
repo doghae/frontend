@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
-import styled from "@emotion/styled";
+import { Grid, GridItem, Img } from "@chakra-ui/react";
 import { Text as ChakraText, Image, Flex } from "@chakra-ui/react";
+import styled from "@emotion/styled";
 
-export const Section3 = () => {
+export const Section4 = () => {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef(null);
 
@@ -28,13 +29,20 @@ export const Section3 = () => {
     <Wrapper ref={ref}>
       <LogoWrapper isVisible={isVisible}>
         <TitleContainer>
-          <Title>어휘 = 요리의 재료 😉</Title>
+          <Title>서비스 소개 👀</Title>
           <Logo src="/images/underline.svg" />
         </TitleContainer>
-        <Text isVisible={isVisible}>어휘는 마치 요리의 재료와도 비슷합니다.</Text>
-        <Text isVisible={isVisible}>다양한 요리 재료를 적절하게 사용해서 우리의 입을 즐겁게 해준다면, </Text>
-        <Text isVisible={isVisible}>다양한 어휘는 원활한 대화를 통해 상대방과 깊은 소통을 할 수 있는</Text>
-        <Text isVisible={isVisible}>기회와 기쁨을 안겨줍니다.</Text>
+        <Grid templateColumns="repeat(3, 1fr)" gap={2}>
+          {cardContents.map((content, index) => (
+            <StyledGridItem key={index} isVisible={isVisible}>
+              <StyledImg
+                src={content.imageSrc}
+                alt={`gif파일${index + 1}`}
+                isVisible={isVisible}
+              />
+            </StyledGridItem>
+          ))}
+        </Grid>
       </LogoWrapper>
     </Wrapper>
   );
@@ -62,7 +70,7 @@ const TitleContainer = styled(Flex)`
   flex-direction: column;
   align-items: left;
   width: 100%;
-  margin-bottom: 10px;
+  margin-bottom: 30px;
 `;
 
 const Title = styled(ChakraText)`
@@ -72,23 +80,46 @@ const Title = styled(ChakraText)`
 `;
 
 const Logo = styled(Image)`
-  width: 390px;
+  width: 280px;
   margin-bottom: 5px;
 `;
 
-interface TextProps {
+interface StyledGridItemProps {
   isVisible: boolean;
 }
 
-const Text = styled(ChakraText)<TextProps>`
-  font-size: 26px;
-  color: #333;
-  margin-bottom: 5px;
-  margin-left: 10px;
-  text-align: left;
-  transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+const StyledGridItem = styled(GridItem)<StyledGridItemProps>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
   opacity: ${(props) => (props.isVisible ? 1 : 0)};
-  transform: ${(props) => (props.isVisible ? "translateY(0)" : "translateY(20px)")};
+  transform: ${(props) =>
+    props.isVisible ? "translateY(0)" : "translateY(20px)"};
+  transition: opacity 1s ease-in-out, transform 1s ease-in-out;
 `;
 
-export default Section3;
+interface StyledImgProps {
+  isVisible: boolean;
+}
+
+const StyledImg = styled(Img)<StyledImgProps>`
+  width: 70%;
+  object-fit: cover; // 이미지가 컨테이너에 맞게 조정되도록 설정
+  opacity: ${(props) => (props.isVisible ? 1 : 0)};
+  transition: opacity 1s ease-in-out;
+`;
+
+const cardContents = [
+  {
+    imageSrc: "/images/serviceImg1.svg",
+  },
+  {
+    imageSrc: "/images/serviceImg2.svg",
+  },
+  {
+    imageSrc: "/images/serviceImg3.svg",
+  },
+];
+
+export default Section4;

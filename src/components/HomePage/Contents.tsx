@@ -1,4 +1,6 @@
 import { Grid, GridItem } from "@chakra-ui/react";
+import { Section2 } from "./Section2";
+import { Section3 } from "./Section3";
 
 export const Contents = () => {
   return (
@@ -13,10 +15,10 @@ export const Contents = () => {
         <p>첫 번째 컴포넌트</p>
       </GridItem>
       <GridItem id="section2" rowSpan={1} backgroundColor={"transparent"}>
-        <p>두 번째 컴포넌트</p>
+        <Section2 />
       </GridItem>
       <GridItem id="section3" rowSpan={1} backgroundColor={"transparent"}>
-        <p>세 번째 컴포넌트</p>
+        <Section3 />
       </GridItem>
       <GridItem id="section4" rowSpan={1} backgroundColor={"transparent"}>
         <p>네 번째 컴포넌트</p>

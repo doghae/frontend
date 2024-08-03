@@ -1,6 +1,5 @@
-import React,{ useEffect } from "react";
 import styled from "@emotion/styled";
-import { Link,useLocation  } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export const Header = () => {
   const REST_API_KEY = "af5896ef6b5436cd1b8d653c769c823e";

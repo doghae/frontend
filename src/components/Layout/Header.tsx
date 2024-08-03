@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export const Header = () => {
   const REST_API_KEY = "af5896ef6b5436cd1b8d653c769c823e";
-  const REDIRECT_URI = "https://doghae.vercel.app/waiting";
+  const REDIRECT_URI = "https://doghae.vercel.app/";
   const link = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
   const loginHandler = () => {

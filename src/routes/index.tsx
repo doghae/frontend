@@ -11,7 +11,9 @@ const router = createBrowserRouter([
   { // with footer
     path: RouterPath.root,
     element: <Layout />,
-    children: [{ path: RouterPath.home, element: <HomePage /> }],
+    children: [
+      { path: RouterPath.home, element: <HomePage /> },
+    ],
   },
   { // without footer
     path: RouterPath.root,

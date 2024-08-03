@@ -34,6 +34,7 @@ const KakaoRedirectHandler = () => {
       // 토큰을 이용한 사용자 정보 요청 등 필요한 작업
     } catch (error) {
       console.error("토큰 요청 에러:", error);
+      console.log("실패");
     }
   };
 

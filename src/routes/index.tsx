@@ -6,16 +6,17 @@ import { RouterPath } from "./path";
 import { Terms } from "@/pages/Extra/Terms";
 import { Privacy } from "@/pages/Extra/Privacy";
 import { Contact } from "@/pages/Extra/Contact";
+import KakaoRedirectHandler from "@/pages/KakaoRedirectHandler"; // Import KakaoRedirectHandler
 
 const router = createBrowserRouter([
-  { // with footer
+  {
+    // with footer
     path: RouterPath.root,
     element: <Layout />,
-    children: [
-      { path: RouterPath.home, element: <HomePage /> },
-    ],
+    children: [{ path: RouterPath.home, element: <HomePage /> }],
   },
-  { // without footer
+  {
+    // without footer
     path: RouterPath.root,
     element: <NoFooterLayout />,
     children: [
@@ -23,6 +24,11 @@ const router = createBrowserRouter([
       { path: RouterPath.privacy, element: <Privacy /> },
       { path: RouterPath.contact, element: <Contact /> },
     ],
+  },
+  {
+    // Kakao redirect handler
+    path: RouterPath.kakaoLogin, // Define this path in RouterPath
+    element: <KakaoRedirectHandler />,
   },
 ]);
 

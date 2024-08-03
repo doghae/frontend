@@ -1,8 +1,15 @@
+import React from "react";
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 
 export const Header = () => {
-  const kakaoLoginUrl = "http://3.34.86.29:8080/oauth/kakao";
+  const REST_API_KEY = "af5896ef6b5436cd1b8d653c769c823e";
+  const REDIRECT_URI = "http://3.34.86.29:8080/oauth2/kakao/login";
+  const link = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+
+  const loginHandler = () => {
+    window.location.href = link;
+  };
 
   return (
     <Wrapper>
@@ -19,7 +26,7 @@ export const Header = () => {
           </Link>
         </div>
         <div>
-          <LoginButton href={kakaoLoginUrl}>로그인</LoginButton>
+          <LoginButton onClick={loginHandler}>로그인</LoginButton>
         </div>
       </Container>
     </Wrapper>
@@ -54,7 +61,7 @@ const Container = styled.div`
   align-items: center; /* 수직 가운데 정렬 */
 `;
 
-const LoginButton = styled.a`
+const LoginButton = styled.button`
   display: inline-block;
   width: 100px;
   height: 40px;
@@ -67,6 +74,7 @@ const LoginButton = styled.a`
   text-align: center;
   line-height: 40px;
   cursor: pointer;
+  background-color: transparent;
   text-decoration: none;
 
   &:hover {

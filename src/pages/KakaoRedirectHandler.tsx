@@ -1,5 +1,3 @@
-// src/pages/KakaoRedirectHandler.tsx
-
 import React, { useEffect } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";

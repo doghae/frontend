@@ -6,14 +6,17 @@ import { RouterPath } from "./path";
 import { Terms } from "@/pages/Extra/Terms";
 import { Privacy } from "@/pages/Extra/Privacy";
 import { Contact } from "@/pages/Extra/Contact";
-import KakaoRedirectHandler from "@/pages/KakaoRedirectHandler"; // Import KakaoRedirectHandler
+import RedirectHandler from "@/components/RedirectHandler"; // import 추가
 
 const router = createBrowserRouter([
   {
     // with footer
     path: RouterPath.root,
     element: <Layout />,
-    children: [{ path: RouterPath.home, element: <HomePage /> }],
+    children: [
+      { path: RouterPath.home, element: <RedirectHandler /> }, // 홈 페이지 대신 리디렉트 핸들러 추가
+      { path: RouterPath.home, element: <HomePage /> }, // 필요에 따라 홈 페이지 경로 추가
+    ],
   },
   {
     // without footer
@@ -24,11 +27,6 @@ const router = createBrowserRouter([
       { path: RouterPath.privacy, element: <Privacy /> },
       { path: RouterPath.contact, element: <Contact /> },
     ],
-  },
-  {
-    // Kakao redirect handler
-    path: RouterPath.kakaoLogin, // Define this path in RouterPath
-    element: <KakaoRedirectHandler />,
   },
 ]);
 

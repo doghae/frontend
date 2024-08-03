@@ -15,9 +15,6 @@ const KakaoRedirectHandler = () => {
   }, [location]);
 
   const getToken = async (authorizationCode: string) => {
-    const REST_API_KEY = "af5896ef6b5436cd1b8d653c769c823e";
-    const REDIRECT_URI = "http://3.34.86.29:8080/oauth2/kakao/login";
-
     try {
       const response = await axios.get(
         `http://3.34.86.29:8080/oauth2/kakao/login?code=${authorizationCode}`
@@ -31,7 +28,8 @@ const KakaoRedirectHandler = () => {
       // 로컬 스토리지에 토큰 저장
       localStorage.setItem("token", access_token);
 
-      // 토큰을 이용한 사용자 정보 요청 등 필요한 작업
+      // 메인 페이지로 리디렉션 또는 필요한 작업 수행
+      window.location.href = "/";
     } catch (error) {
       console.error("토큰 요청 에러:", error);
       console.log("실패");

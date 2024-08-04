@@ -43,8 +43,11 @@ const kakaoLogin = async (code: string, navigate: any) => {
     });
     console.log(res);
 
-    const ACCESS_TOKEN = res.data.accessToken;
+    // Authorization 헤더 추출
+    const ACCESS_TOKEN = res.headers.authorization;
     console.log("ACCESS_TOKEN", ACCESS_TOKEN);
+
+    // 로컬 스토리지에 토큰 저장
     localStorage.setItem("token", ACCESS_TOKEN);
 
     navigate("/", { replace: true });

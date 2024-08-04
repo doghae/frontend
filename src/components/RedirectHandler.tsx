@@ -37,9 +37,7 @@ const RedirectHandler: React.FC = () => {
 
 const kakaoLogin = async (code: string, navigate: any) => {
   try {
-    const res = await axios.get(
-      `http://3.34.86.29:8080/oauth2/kakao/login?code=${code}`
-    );
+    const res = await axios.get(`https://doghae.site/?code=${code}`);
     console.log(res);
 
     const ACCESS_TOKEN = res.data.accessToken;

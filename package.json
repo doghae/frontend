@@ -2,6 +2,7 @@
   "name": "doghae",
   "version": "0.1.0",
   "private": true,
+  "proxy": "https://doghae.site",
   "dependencies": {
     "@chakra-ui/react": "^2.8.2",
     "@craco/craco": "^7.1.0",

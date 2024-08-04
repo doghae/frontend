@@ -1,10 +1,8 @@
-// src/api.ts
-
 import axios from 'axios';
 
 // axios 인스턴스 생성
 const api = axios.create({
-  baseURL: 'http://3.34.86.29:8080',
+  baseURL: '/api', // Vercel 프록시 경로
 });
 
 // 요청 인터셉터 설정

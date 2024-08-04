@@ -61,3 +61,4 @@ const kakaoLogin = async (code: string, navigate: any) => {
 };
 
 export default RedirectHandler;
+  

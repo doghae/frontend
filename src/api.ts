@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // axios 인스턴스 생성
 const api = axios.create({
-  baseURL: '/', // Vercel 프록시 경로
+  baseURL: 'https://doghae.site/', // Vercel 프록시 경로
 });
 
 // 요청 인터셉터 설정

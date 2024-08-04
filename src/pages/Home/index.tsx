@@ -1,6 +1,7 @@
 import { Contents } from "@/components/HomePage/Contents";
 import styled from "@emotion/styled";
 import { useState, useEffect } from "react";
+import axios from "axios";
 
 export const HomePage = () => {
   const [token, setToken] = useState<string | null>(null);
@@ -9,7 +10,25 @@ export const HomePage = () => {
     // 로컬 스토리지에서 토큰을 가져와서 상태에 저장
     const storedToken = localStorage.getItem('token');
     setToken(storedToken);
+
+    // 토큰이 있을 때 stage/1에 대한 정보를 가져오기
+    if (storedToken) {
+      fetchStageData(storedToken);
+    }
   }, []);
+
+  const fetchStageData = async (token: string) => {
+    try {
+      const response = await axios.get('https://doghae.site/stage/1', {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      console.log(response.data); // 받아온 데이터 콘솔에 출력
+    } catch (error) {
+      console.error('데이터 가져오기 실패', error);
+    }
+  };
 
   return (
     <Wrapper>

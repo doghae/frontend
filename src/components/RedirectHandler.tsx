@@ -38,7 +38,7 @@ const RedirectHandler: React.FC = () => {
 const kakaoLogin = async (code: string, navigate: any) => {
   try {
     const res = await axios.get(
-      `http://cors-anywhere/herokuapp.com/doghae.site/oauth2/kakao/login?code=${code}`
+      `https://doghae.site/oauth2/kakao/login?code=${code}`
     );
     console.log(res);
 

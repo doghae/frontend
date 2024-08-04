@@ -39,11 +39,12 @@ const RedirectHandler: React.FC = () => {
 const kakaoLogin = async (code: string, navigate: any) => {
   try {
     const res = await api.get(`/oauth2/kakao/login?code=${code}`, {
-      withCredentials: false,
+      withCredentials: true,
     });
     console.log(res);
 
     const ACCESS_TOKEN = res.data.accessToken;
+    console.log("ACCESS_TOKEN", ACCESS_TOKEN);
     localStorage.setItem("token", ACCESS_TOKEN);
 
     navigate("/", { replace: true });
@@ -61,4 +62,3 @@ const kakaoLogin = async (code: string, navigate: any) => {
 };
 
 export default RedirectHandler;
-  

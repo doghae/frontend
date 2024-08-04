@@ -47,7 +47,15 @@ const kakaoLogin = async (code: string, navigate: any) => {
 
     navigate("/main", { replace: true });
   } catch (err) {
-    console.error("소셜로그인 에러", err);
+    // Type assertion for AxiosError
+    if (axios.isAxiosError(err)) {
+      console.error(
+        "소셜로그인 에러",
+        err.response ? err.response.data : err.message
+      );
+    } else {
+      console.error("소셜로그인 에러", err);
+    }
     window.alert("로그인에 실패하였습니다.");
     //navigate("/login", { replace: true });
   }

@@ -46,7 +46,7 @@ const kakaoLogin = async (code: string, navigate: any) => {
     const ACCESS_TOKEN = res.data.accessToken;
     localStorage.setItem("token", ACCESS_TOKEN);
 
-    navigate("/main", { replace: true });
+    navigate("/", { replace: true });
   } catch (err) {
     if (axios.isAxiosError(err)) {
       console.error(

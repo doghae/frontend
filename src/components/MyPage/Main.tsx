@@ -6,9 +6,9 @@ import { UnderSection } from "./UnderSection";
 export const Main = () => (
   <Wrapper>
     <Grid
-      h={{ base: "800px", md: "1000px" }}
+      h={{ base: "900px", md: "1100px" }}
       w="100%"
-      templateRows={{ base: "repeat(2, 1fr)", md: "1fr 400px" }}
+      templateRows={{ base: "repeat(2, 1fr)", md: "1fr 500px" }}
       templateColumns={{ base: "1fr", md: "repeat(1, 1fr)" }}
       gap={{ base: 50, md: 100 }}
       p={{ base: 5, md: 8 }} /* 화면 크기에 따른 패딩 설정 */

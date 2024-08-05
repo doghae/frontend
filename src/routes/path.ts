@@ -6,5 +6,7 @@ export const RouterPath = {
   review: "/review",
   terms: "/terms",
   privacy: "/privacy",
-  contact: "/contact"
+  contact: "/contact",
+  main: "/main",
+  quiz: "/quiz",
 };

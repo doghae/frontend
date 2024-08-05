@@ -1,3 +1,5 @@
+// 메인페이지를 따로 만들려고 했으니 index.tsx가 메인페이지 역할을 하는것이 확인됨. 해당 페이지는 무시할것
+
 import styled from '@emotion/styled';
 import { Link } from "react-router-dom";
 

@@ -10,7 +10,7 @@ export const Main = () => (
       w="100%"
       templateRows={{ base: "repeat(2, 1fr)", md: "500px 500px" }}
       templateColumns={{ base: "1fr", md: "repeat(1, 1fr)" }}
-      gap={{ base: 50, md: 100 }}
+      gap={{ base: 50, md: 50 }}
       p={{ base: 5, md: 8 }} /* 화면 크기에 따른 패딩 설정 */
     >
       <GridItem id="section1" rowSpan={1} backgroundColor={"transparent"}>

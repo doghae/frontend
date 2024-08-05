@@ -7,14 +7,17 @@ export const Quiz = () => {
   const [token, setToken] = useState<string | null>(null);
   const [quizData, setQuizData] = useState<any[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState<{ questionId: number; answer: string }[]>([]);
+  const [answers, setAnswers] = useState<
+    { questionId: number; answer: string }[]
+  >([]);
   const [resultData, setResultData] = useState<any>(null);
+  const [score, setScore] = useState<number>(0);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     setToken(storedToken);
     if (storedToken) {
-      const pathSegments = window.location.pathname.split('/');
+      const pathSegments = window.location.pathname.split("/");
       const quizId = pathSegments[pathSegments.length - 1]; // URL의 마지막 부분을 가져옴
       fetchStageData(storedToken, quizId);
     }
@@ -77,34 +80,59 @@ export const Quiz = () => {
   };
 
   const submitAnswers = async () => {
-    const pathSegments = window.location.pathname.split('/');
+    const pathSegments = window.location.pathname.split("/");
     const quizId = pathSegments[pathSegments.length - 1]; // URL의 마지막 부분을 가져옴
 
     try {
-      const response = await axios.post(`https://doghae.site/stage/${quizId}`, {
-        answers: answers,
-      }, {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const response = await axios.post(
+        `https://doghae.site/stage/${quizId}`,
+        {
+          answers: answers,
         },
-      });
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       console.log("Submission result:", response.data);
+      calculateScore(response.data.data);
       setResultData(response.data); // 결과 데이터를 상태에 저장
     } catch (error) {
       console.error("정답 제출 실패", error);
     }
   };
 
+  const calculateScore = (results: any[]) => {
+    const correctAnswers = results.filter((result) => result.answer).length;
+    const totalQuestions = results.length;
+    const score = (correctAnswers / totalQuestions) * 100;
+    setScore(score);
+  };
+
   if (resultData) {
+    const correctAnswers = resultData.data.filter(
+      (result: any) => result.answer
+    ).length;
+    const incorrectAnswers = resultData.data.filter(
+      (result: any) => !result.answer
+    ).length;
+
     return (
-      <Container>
-        <ResultHeader>결과</ResultHeader>
-        {resultData.data.map((result: any, index: number) => (
-          <ResultItem key={index} correct={result.answer}>
-            문제 {result.questionId}: {result.answer ? '맞았습니다!' : '틀렸습니다.'}
-          </ResultItem>
-        ))}
-      </Container>
+      <ResultContainer>
+        <h1>수고하셨습니다 😊</h1>
+        <ResultBox>
+          {token && <UserName>{token.slice(0, 5)} 님의 점수는</UserName>}
+          <ResultDetail>
+            맞은 개수: {correctAnswers}개<br />
+            틀린 개수: {incorrectAnswers}개
+          </ResultDetail>
+          <Score>{Math.round(score)}점 입니다!</Score>
+          <MainButton onClick={() => (window.location.href = "/")}>
+            메인으로
+          </MainButton>
+        </ResultBox>
+      </ResultContainer>
     );
   }
 
@@ -115,11 +143,16 @@ export const Quiz = () => {
           <QuestionHeader>문제 {currentQuestionIndex + 1}</QuestionHeader>
           <Question>{quizData[currentQuestionIndex].problem}</Question>
           <Options>
-            {quizData[currentQuestionIndex].choices.map((choice: string, choiceIndex: number) => (
-              <Option key={choiceIndex} onClick={() => handleChoiceClick(choice)}>
-                {choiceIndex + 1}. {choice}
-              </Option>
-            ))}
+            {quizData[currentQuestionIndex].choices.map(
+              (choice: string, choiceIndex: number) => (
+                <Option
+                  key={choiceIndex}
+                  onClick={() => handleChoiceClick(choice)}
+                >
+                  {choiceIndex + 1}. {choice}
+                </Option>
+              )
+            )}
           </Options>
           <Timer>
             남은 시간: {String(Math.floor(timeLeft / 60)).padStart(2, "0")}:
@@ -185,15 +218,50 @@ const Timer = styled.div`
   color: #888;
 `;
 
-const ResultHeader = styled.div`
+const ResultContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  font-family: "Arial, sans-serif";
+`;
+
+const ResultBox = styled.div`
+  background-color: #f9f9f9;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+`;
+
+const UserName = styled.div`
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 20px;
 `;
 
-const ResultItem = styled.div<{ correct: boolean }>`
-  margin-bottom: 10px;
-  color: ${props => (props.correct ? 'green' : 'red')};
+const ResultDetail = styled.div`
+  font-size: 18px;
+  margin-bottom: 20px;
+`;
+
+const Score = styled.div`
+  font-size: 32px;
+  font-weight: bold;
+  color: #00bcd4;
+  margin-bottom: 20px;
+`;
+
+const MainButton = styled.button`
+  background-color: #00bcd4;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+  &:hover {
+    background-color: #0097a7;
+  }
 `;
 
 export default Quiz;

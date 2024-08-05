@@ -6,12 +6,12 @@ import { UnderSection } from "./UnderSection";
 export const Main = () => (
   <Wrapper>
     <Grid
-      h={{ base: "1000px", md: "1500px" }}
+      h={{ base: "100vh", md: "150vh" }} /* 화면 높이에 따라 조정 */
       w="100%"
-      templateRows={{ base: "repeat(2, 1fr)", md: "500px 500px" }}
-      templateColumns={{ base: "1fr", md: "repeat(1, 1fr)" }}
-      gap={{ base: 50, md: 50 }}
-      p={{ base: 5, md: 8 }} /* 화면 크기에 따른 패딩 설정 */
+      templateRows={{ base: "repeat(2, 1fr)", md: "1fr 1fr" }}
+      templateColumns={{ base: "1fr", md: "1fr" }}
+      gap={{ base: 4, md: 8 }} /* 화면 크기에 따른 간격 설정 */
+      p={{ base: 4, md: 8 }} /* 화면 크기에 따른 패딩 설정 */
     >
       <GridItem id="section1" rowSpan={1} backgroundColor={"transparent"}>
         <StageSelection />
@@ -24,7 +24,7 @@ export const Main = () => (
 );
 
 const Wrapper = styled.div`
-  overflow: hidden; /* 전체 스크롤 숨김 */
+  overflow-x: hidden; /* 수평 스크롤 숨김 */
 `;
 
 export default Main;

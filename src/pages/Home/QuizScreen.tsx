@@ -7,6 +7,9 @@ export const Quiz = () => {
   const [token, setToken] = useState<string | null>(null);
   const [quizData, setQuizData] = useState<any[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [answers, setAnswers] = useState<
+    { questionId: number; answer: string }[]
+  >([]);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
@@ -58,12 +61,42 @@ export const Quiz = () => {
     if (currentQuestionIndex < quizData.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
-      alert("모든 문제를 다 푸셨습니다!");
+      submitAnswers();
     }
   };
 
-  const handleChoiceClick = () => {
+  const handleChoiceClick = (choice: string) => {
+    const currentQuestion = quizData[currentQuestionIndex];
+    setAnswers([
+      ...answers,
+      {
+        questionId: currentQuestion.questionId,
+        answer: choice,
+      },
+    ]);
     handleNextQuestion();
+  };
+
+  const submitAnswers = async () => {
+    const pathSegments = window.location.pathname.split("/");
+    const quizId = pathSegments[pathSegments.length - 1]; // URL의 마지막 부분을 가져옴
+
+    try {
+      const response = await axios.post(
+        `https://doghae.site/stage/${quizId}`,
+        {
+          answers: answers,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("Submission result:", response.data);
+    } catch (error) {
+      console.error("정답 제출 실패", error);
+    }
   };
 
   return (
@@ -75,7 +108,10 @@ export const Quiz = () => {
           <Options>
             {quizData[currentQuestionIndex].choices.map(
               (choice: string, choiceIndex: number) => (
-                <Option key={choiceIndex} onClick={handleChoiceClick}>
+                <Option
+                  key={choiceIndex}
+                  onClick={() => handleChoiceClick(choice)}
+                >
                   {choiceIndex + 1}. {choice}
                 </Option>
               )

@@ -36,8 +36,8 @@ export const Quiz = () => {
         },
       });
       console.log("Response data:", response.data); // 받아온 데이터 콘솔에 출력
-      if (Array.isArray(response.data)) {
-        setQuizData(response.data);
+      if (response.data && Array.isArray(response.data.data)) {
+        setQuizData(response.data.data);
       } else {
         console.error("Received data is not an array:", response.data);
       }
@@ -87,6 +87,12 @@ const QuestionHeader = styled.div`
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 20px;
+`;
+
+const QuizItem = styled.div`
+  margin-bottom: 40px;
+  width: 100%;
+  max-width: 600px;
 `;
 
 const Question = styled.div`

@@ -6,7 +6,7 @@ import { UnderSection } from "./UnderSection";
 export const Main = () => (
   <Wrapper>
     <Grid
-      h={{ base: "1000px", md: "1250px" }}
+      h={{ base: "800px", md: "1000px" }}
       w="100%"
       templateRows={{ base: "repeat(2, 1fr)", md: "1fr 400px" }}
       templateColumns={{ base: "1fr", md: "repeat(1, 1fr)" }}

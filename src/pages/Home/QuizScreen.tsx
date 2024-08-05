@@ -8,6 +8,7 @@ export const Quiz = () => {
   const [quizData, setQuizData] = useState<any[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<{ questionId: number; answer: string }[]>([]);
+  const [resultData, setResultData] = useState<any>(null);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
@@ -88,10 +89,24 @@ export const Quiz = () => {
         },
       });
       console.log("Submission result:", response.data);
+      setResultData(response.data); // 결과 데이터를 상태에 저장
     } catch (error) {
       console.error("정답 제출 실패", error);
     }
   };
+
+  if (resultData) {
+    return (
+      <Container>
+        <ResultHeader>결과</ResultHeader>
+        {resultData.data.map((result: any, index: number) => (
+          <ResultItem key={index} correct={result.answer}>
+            문제 {result.questionId}: {result.answer ? '맞았습니다!' : '틀렸습니다.'}
+          </ResultItem>
+        ))}
+      </Container>
+    );
+  }
 
   return (
     <Container>
@@ -168,6 +183,17 @@ const Timer = styled.div`
   margin-top: 20px;
   font-size: 12px;
   color: #888;
+`;
+
+const ResultHeader = styled.div`
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+`;
+
+const ResultItem = styled.div<{ correct: boolean }>`
+  margin-bottom: 10px;
+  color: ${props => (props.correct ? 'green' : 'red')};
 `;
 
 export default Quiz;

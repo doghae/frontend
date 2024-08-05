@@ -52,12 +52,14 @@ const StageTitle = styled(Text)`
   font-size: 40px;
   font-weight: bold;
   color: #000;
+  line-height: 1;
 `;
 
 const Subtitle = styled(Text)`
   font-size: 18px;
   color: #c927f6;
   margin-left: 10px;
+  line-height: 1.2;
 `;
 
 const CardContainer = styled(Grid)`

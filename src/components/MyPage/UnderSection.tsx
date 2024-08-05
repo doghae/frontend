@@ -23,14 +23,14 @@ const Wrapper = styled(Flex)`
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
-  gap: 20px; /* 두 섹션 사이의 간격 조절 */
+  gap: 30px; /* 두 섹션 사이의 간격 조절 */
 `;
 
 const LeftSection = styled(Box)`
   flex: 2;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 30px;
 `;
 
 const RightSection = styled(Box)`
@@ -41,7 +41,7 @@ const RightSection = styled(Box)`
 `;
 
 const AdBanner = styled(Box)`
-  width: 100%;
+  width: 70%;
   height: 100%;
   background-color: #ffffff;
   display: flex;

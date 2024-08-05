@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-
 import { Grid, GridItem } from "@chakra-ui/react";
 import { Section1 } from "./Section1";
 import { Section2 } from "./Section2";
@@ -7,12 +6,9 @@ import { Section3 } from "./Section3";
 import { Section4 } from "./Section4";
 import { Loginbox } from "./Loginbox";
 
-import { Link } from "react-router-dom";
-
 export const Contents = () => {
   return (
     <Wrapper>
-      <StyledLink to="/quiz">문제풀이</StyledLink>
       <Grid
         h={{ base: "2000px", md: "2500px" }}
         w="100%"
@@ -43,18 +39,4 @@ export const Contents = () => {
 
 const Wrapper = styled.div`
   overflow: hidden; /* 전체 스크롤 숨김 */
-`;
-
-const StyledLink = styled(Link)`
-  font-family: "Inter", sans-serif;
-  font-size: 12px;
-  color: #3c3c3f;
-  font-weight: 400;
-  line-height: 16.8px;
-  letter-spacing: -0.025em;
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
 `;

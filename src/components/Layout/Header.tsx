@@ -19,6 +19,14 @@ export const Header = () => {
     setToken(storedToken);
   }, []);
 
+  // 토큰이 변경될 때마다 상태 업데이트
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    if (storedToken !== token) {
+      setToken(storedToken);
+    }
+  }, [token]);
+
   return (
     <Wrapper>
       <Container>
@@ -37,7 +45,7 @@ export const Header = () => {
           {token ? (
             <UserInfo>
               <UserIcon src="/images/user.svg" alt="user icon" />
-              <UserName>{token.slice(0, 5)}님</UserName>
+              <UserName>{token.slice(0, 5)} 님</UserName>
             </UserInfo>
           ) : (
             <LoginButton onClick={loginHandler}>로그인</LoginButton>

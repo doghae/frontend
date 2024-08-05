@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import { Grid, GridItem } from "@chakra-ui/react";
 import { StageSelection } from "./StageSelection";
+import { UnderSection } from "./UnderSection";
 
 export const Main = () => (
   <Wrapper>
@@ -16,7 +17,7 @@ export const Main = () => (
         <StageSelection />
       </GridItem>
       <GridItem id="section2" rowSpan={1} backgroundColor={"transparent"}>
-        <p>아랫 부분</p>
+        <UnderSection/>
       </GridItem>
     </Grid>
   </Wrapper>

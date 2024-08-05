@@ -1,100 +1,29 @@
 import styled from "@emotion/styled";
-import { Box, Text, Flex } from "@chakra-ui/react";
-
-const stages = ["12th", "11th", "10th", "9th", "8th", "7th", "6th", "..."];
+import { Grid, GridItem } from "@chakra-ui/react";
+import { StageSelection } from "./StageSelection";
 
 export const Main = () => (
   <Wrapper>
-    <Title>Stage. 12</Title>
-    <StageNav>
-      {stages.map((stage) => (
-        <StageItem key={stage}>{stage}</StageItem>
-      ))}
-    </StageNav>
-    <ContentWrapper>
-      <ContentBox>
-        <ContentTitle>오늘의 문제 &gt;</ContentTitle>
-        <ContentText>1/5 고급어휘 3 중급어휘 1 초급어휘 1</ContentText>
-      </ContentBox>
-      <ContentBox>
-        <ContentTitle>복습 &gt;</ContentTitle>
-        <ContentText>반복하지 않으면 배울 수 없다. - 그리스 격언</ContentText>
-      </ContentBox>
-      <AdBox>
-        <Text>메가스터디 광고</Text>
-      </AdBox>
-    </ContentWrapper>
+    <Grid
+      h={{ base: "1000px", md: "1500px" }}
+      w="100%"
+      templateRows={{ base: "repeat(2, 1fr)", md: "1fr 1fr" }}
+      templateColumns={{ base: "1fr", md: "repeat(1, 1fr)" }}
+      gap={{ base: 50, md: 100 }}
+      p={{ base: 5, md: 8 }} /* 화면 크기에 따른 패딩 설정 */
+    >
+      <GridItem id="section1" rowSpan={1} backgroundColor={"transparent"}>
+        <StageSelection />
+      </GridItem>
+      <GridItem id="section2" rowSpan={1} backgroundColor={"transparent"}>
+        <p>아랫 부분</p>
+      </GridItem>
+    </Grid>
   </Wrapper>
 );
 
 const Wrapper = styled.div`
-  width: 100%;
-  padding: 20px;
-  background: linear-gradient(180deg, #e8ffff 0%, #ffffff 100%);
-  overflow-x: hidden;
-`;
-
-const Title = styled.h1`
-  font-size: 24px;
-  text-align: center;
-  margin-bottom: 20px;
-`;
-
-const StageNav = styled.div`
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 20px;
-`;
-
-const StageItem = styled.div`
-  padding: 10px;
-  background-color: #a2e1db;
-  border-radius: 50%;
-  text-align: center;
-  width: 50px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  color: white;
-`;
-
-const ContentWrapper = styled(Flex)`
-  justify-content: center;
-  gap: 20px;
-`;
-
-const ContentBox = styled(Box)`
-  padding: 20px;
-  background-color: #a2e1db;
-  border-radius: 10px;
-  flex: 1;
-  max-width: 300px;
-  min-width: 200px;
-`;
-
-const AdBox = styled(Box)`
-  padding: 20px;
-  background-color: #d3d3d3;
-  border-radius: 10px;
-  flex: 1;
-  max-width: 300px;
-  min-width: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const ContentTitle = styled(Text)`
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 10px;
-`;
-
-const ContentText = styled(Text)`
-  font-size: 16px;
+  overflow: hidden; /* 전체 스크롤 숨김 */
 `;
 
 export default Main;

@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import HomePage from "@/pages/Home";
 import axios from "axios";
-import api from "../api";
+import api from "@/api";
+import { useAuth } from "@/context/AuthContext";
 
 const useQuery = (): URLSearchParams => {
   return new URLSearchParams(useLocation().search);
@@ -12,6 +13,7 @@ const RedirectHandler: React.FC = () => {
   const query = useQuery();
   const navigate = useNavigate();
   const code = query.get("code");
+  const { setToken } = useAuth();
 
   useEffect(() => {
     const handleRedirect = async () => {
@@ -19,7 +21,7 @@ const RedirectHandler: React.FC = () => {
         console.log("Authorization code:", code);
         // API 호출 및 후속 작업
         try {
-          await kakaoLogin(code, navigate);
+          await kakaoLogin(code, navigate, setToken);
         } catch (error) {
           console.error("소셜로그인 에러", error);
         }
@@ -27,7 +29,7 @@ const RedirectHandler: React.FC = () => {
     };
 
     handleRedirect();
-  }, [code, navigate]);
+  }, [code, navigate, setToken]);
 
   if (!code) {
     return <HomePage />;
@@ -36,7 +38,7 @@ const RedirectHandler: React.FC = () => {
   return <div>Redirecting...</div>;
 };
 
-const kakaoLogin = async (code: string, navigate: any) => {
+const kakaoLogin = async (code: string, navigate: any, setToken: (token: string | null) => void) => {
   try {
     const res = await api.get(`/oauth2/kakao/login?code=${code}`, {
       withCredentials: true,
@@ -54,6 +56,8 @@ const kakaoLogin = async (code: string, navigate: any) => {
 
     // 로컬 스토리지에 토큰 저장
     localStorage.setItem("token", ACCESS_TOKEN);
+    // Context API를 통해 토큰 설정
+    setToken(ACCESS_TOKEN);
     // 로그인 성공 후 메인 페이지로 이동
     navigate("/", { replace: true });
   } catch (err) {

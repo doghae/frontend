@@ -1,23 +1,19 @@
 import { Contents } from "@/components/HomePage/Contents";
 import styled from "@emotion/styled";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-
+import { useAuth } from "@/context/AuthContext";
 
 export const HomePage = () => {
-  const [token, setToken] = useState<string | null>(null);
+  const { token, setToken } = useAuth();
 
   useEffect(() => {
-    // 로컬 스토리지에서 토큰을 가져와서 상태에 저장
-    const storedToken = localStorage.getItem('token');
-    setToken(storedToken);
-
     // 토큰이 있을 때 stage/1에 대한 정보를 가져오기
-    if (storedToken) {
-      fetchStageData(storedToken);
+    if (token) {
+      fetchStageData(token);
     }
-  }, []);
+  }, [token]);
 
   const fetchStageData = async (token: string) => {
     try {

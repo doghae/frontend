@@ -1,31 +1,18 @@
-import { useEffect, useState } from "react";
+import React from "react";
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
+import { useAuth } from "@/context/AuthContext";
 
 export const Header = () => {
   const REST_API_KEY = "af5896ef6b5436cd1b8d653c769c823e";
   const REDIRECT_URI = "https://doghae.vercel.app/";
   const link = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
+  const { token, setToken } = useAuth();
+
   const loginHandler = () => {
     window.location.href = link;
   };
-
-  const [token, setToken] = useState<string | null>(null);
-
-  useEffect(() => {
-    // 로컬 스토리지에서 토큰을 가져와서 상태에 저장
-    const storedToken = localStorage.getItem("token");
-    setToken(storedToken);
-  }, []);
-
-  // 토큰이 변경될 때마다 상태 업데이트
-  useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-    if (storedToken !== token) {
-      setToken(storedToken);
-    }
-  }, [token]);
 
   return (
     <Wrapper>
@@ -38,13 +25,13 @@ export const Header = () => {
           }}
         >
           <Link to={"/"}>
-            <Logo src="/images/logo.svg" />
+            <Logo src="/assets/images/logo.svg" />
           </Link>
         </div>
         <div>
           {token ? (
             <UserInfo>
-              <UserIcon src="/images/user.svg" alt="user icon" />
+              <UserIcon src="/assets/images/user.svg" alt="user icon" />
               <UserName>{token.slice(0, 5)} 님</UserName>
             </UserInfo>
           ) : (

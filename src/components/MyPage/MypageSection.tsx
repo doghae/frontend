@@ -35,7 +35,7 @@ const Header = styled(Box)`
 `;
 
 const StyledImg = styled.img`
-  margin-bottom: -15px;
+  margin-bottom: -17px;
 `;
 
 const Title = styled(Text)`
@@ -50,6 +50,7 @@ const ContentBox = styled(Box)`
   border-radius: 10px;
   border: 1px solid #a2e1db;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 
   &:hover {
     background-color: #a2e1db;

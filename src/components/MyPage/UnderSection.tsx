@@ -44,7 +44,7 @@ const RightSection = styled(Box)`
 
 const AdBanner = styled(Box)`
   width: 100%;
-  height: 80%;
+  height: 77%;
   background-color: #ffffff;
   display: flex;
   align-items: center;

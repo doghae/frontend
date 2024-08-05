@@ -8,7 +8,7 @@ export const Main = () => (
     <Grid
       h={{ base: "1000px", md: "1500px" }}
       w="100%"
-      templateRows={{ base: "repeat(2, 1fr)", md: "1fr 1fr" }}
+      templateRows={{ base: "repeat(2, 1fr)", md: "500px 1fr" }}
       templateColumns={{ base: "1fr", md: "repeat(1, 1fr)" }}
       gap={{ base: 50, md: 100 }}
       p={{ base: 5, md: 8 }} /* 화면 크기에 따른 패딩 설정 */

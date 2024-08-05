@@ -5,7 +5,7 @@ const MypageSection = () => {
   return (
     <SectionWrapper>
       <Header>
-        <Img src="/images/developing.svg" alt="말풍선" />
+        <StyledImg src="/images/developing.svg" alt="말풍선" />
         <Title>Mypage</Title>
       </Header>
       <ContentBox>
@@ -33,13 +33,17 @@ const Header = styled(Box)`
   gap: 10px;
 `;
 
+const StyledImg = styled.img`
+  margin-top: 10px;
+`;
+
 const Title = styled(Text)`
   font-size: 40px;
   font-weight: bold;
 `;
 
 const ContentBox = styled(Box)`
-  width: 80%;
+  width: 90%;
   background-color: #ffffff;
   padding: 20px;
   border-radius: 10px;

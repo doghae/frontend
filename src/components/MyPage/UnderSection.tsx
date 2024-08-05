@@ -36,13 +36,15 @@ const LeftSection = styled(Box)`
 const RightSection = styled(Box)`
   flex: 1;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  justify-content: flex-end; /* 오른쪽 정렬 */
+  align-items: flex-end; /* 하단 정렬 */
+  padding: 0px; /* 추가된 패딩 */
+  position: relative; /* 위치 조정을 위한 설정 */
 `;
 
 const AdBanner = styled(Box)`
-  width: 70%;
-  height: 100%;
+  width: 100%;
+  height: 80%;
   background-color: #ffffff;
   display: flex;
   align-items: center;

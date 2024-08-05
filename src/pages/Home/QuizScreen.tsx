@@ -7,15 +7,13 @@ export const Quiz = () => {
   const [token, setToken] = useState<string | null>(null);
   const [quizData, setQuizData] = useState<any[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState<
-    { questionId: number; answer: string }[]
-  >([]);
+  const [answers, setAnswers] = useState<{ questionId: number; answer: string }[]>([]);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
     setToken(storedToken);
     if (storedToken) {
-      const pathSegments = window.location.pathname.split("/");
+      const pathSegments = window.location.pathname.split('/');
       const quizId = pathSegments[pathSegments.length - 1]; // URL의 마지막 부분을 가져옴
       fetchStageData(storedToken, quizId);
     }
@@ -67,8 +65,8 @@ export const Quiz = () => {
 
   const handleChoiceClick = (choice: string) => {
     const currentQuestion = quizData[currentQuestionIndex];
-    setAnswers([
-      ...answers,
+    setAnswers((prevAnswers) => [
+      ...prevAnswers,
       {
         questionId: currentQuestion.questionId,
         answer: choice,
@@ -78,21 +76,17 @@ export const Quiz = () => {
   };
 
   const submitAnswers = async () => {
-    const pathSegments = window.location.pathname.split("/");
+    const pathSegments = window.location.pathname.split('/');
     const quizId = pathSegments[pathSegments.length - 1]; // URL의 마지막 부분을 가져옴
 
     try {
-      const response = await axios.post(
-        `https://doghae.site/stage/${quizId}`,
-        {
-          answers: answers,
+      const response = await axios.post(`https://doghae.site/stage/${quizId}`, {
+        answers: answers,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      });
       console.log("Submission result:", response.data);
     } catch (error) {
       console.error("정답 제출 실패", error);
@@ -106,16 +100,11 @@ export const Quiz = () => {
           <QuestionHeader>문제 {currentQuestionIndex + 1}</QuestionHeader>
           <Question>{quizData[currentQuestionIndex].problem}</Question>
           <Options>
-            {quizData[currentQuestionIndex].choices.map(
-              (choice: string, choiceIndex: number) => (
-                <Option
-                  key={choiceIndex}
-                  onClick={() => handleChoiceClick(choice)}
-                >
-                  {choiceIndex + 1}. {choice}
-                </Option>
-              )
-            )}
+            {quizData[currentQuestionIndex].choices.map((choice: string, choiceIndex: number) => (
+              <Option key={choiceIndex} onClick={() => handleChoiceClick(choice)}>
+                {choiceIndex + 1}. {choice}
+              </Option>
+            ))}
           </Options>
           <Timer>
             남은 시간: {String(Math.floor(timeLeft / 60)).padStart(2, "0")}:

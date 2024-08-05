@@ -12,7 +12,9 @@ export const Quiz = () => {
     const storedToken = localStorage.getItem("token");
     setToken(storedToken);
     if (storedToken) {
-      fetchStageData(storedToken);
+      const pathSegments = window.location.pathname.split("/");
+      const quizId = pathSegments[pathSegments.length - 1]; // URL의 마지막 부분을 가져옴
+      fetchStageData(storedToken, quizId);
     }
   }, []);
 
@@ -34,9 +36,9 @@ export const Quiz = () => {
     }
   }, [timeLeft]);
 
-  const fetchStageData = async (token: string) => {
+  const fetchStageData = async (token: string, quizId: string) => {
     try {
-      const response = await axios.get("https://doghae.site/stage/1", {
+      const response = await axios.get(`https://doghae.site/stage/${quizId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

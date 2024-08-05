@@ -9,6 +9,14 @@ export const Loginbox = () => {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement | null>(null);
 
+  const REST_API_KEY = "af5896ef6b5436cd1b8d653c769c823e";
+  const REDIRECT_URI = "https://doghae.vercel.app/";
+  const link = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+
+  const loginHandler = () => {
+    window.location.href = link;
+  };
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -30,7 +38,7 @@ export const Loginbox = () => {
   return (
     <Wrapper ref={ref}>
       <div>
-        <Button isVisible={isVisible} onClick={() => alert("로그인하여 이용해보세요!")}>
+        <Button isVisible={isVisible} onClick={loginHandler}>
           로그인하여 이용해보세요!
         </Button>
       </div>

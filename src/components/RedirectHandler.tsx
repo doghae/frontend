@@ -43,11 +43,9 @@ const kakaoLogin = async (code: string, navigate: any, setToken: (token: string 
     const res = await api.get(`/oauth2/kakao/login?code=${code}`, {
       withCredentials: true,
     });
-    console.log("Response Headers:", res.headers);
 
     // Authorization 헤더 추출 시 여러 방법을 시도
     const ACCESS_TOKEN = res.headers['authorization'] || res.headers.Authorization;
-    console.log("ACCESS_TOKEN", ACCESS_TOKEN);
 
     // 토큰이 undefined인 경우 에러 처리
     if (!ACCESS_TOKEN) {

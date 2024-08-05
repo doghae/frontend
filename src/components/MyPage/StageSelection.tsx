@@ -19,7 +19,7 @@ export const StageSelection = () => {
           <Subtitle>※ 단계를 선택해서 문제를 풀어보세요!</Subtitle>
         </Header>
         <CardContainer>
-          {stages.map(stage => (
+          {stages.map((stage) => (
             <StageCard key={stage} onClick={() => handleCardClick(stage)}>
               {stage}
             </StageCard>
@@ -43,6 +43,7 @@ const LogoWrapper = styled.div`
 `;
 
 const Header = styled(Flex)`
+  margin-top: 20px;x
   align-items: baseline;
   margin-bottom: 20px;
 `;
@@ -54,7 +55,7 @@ const StageTitle = styled(Text)`
 `;
 
 const Subtitle = styled(Text)`
-  font-size: 24px;
+  font-size: 20px;
   color: #c927f6;
   margin-left: 10px;
 `;
@@ -71,14 +72,15 @@ const CardContainer = styled(Grid)`
 const StageCard = styled(GridItem)`
   background: linear-gradient(180deg, #55cbcd 0%, #a2e1db 100%);
   border-radius: 10px;
+  border: 1px solid #a2e1db;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
+  font-size: 30px;
   font-style: italic;
   color: white;
-  height: 100px;
-  cursor: pointer;  /* 추가된 스타일 */
+  height: 150px;
+  cursor: pointer;
   transition: transform 0.2s;
 
   &:hover {

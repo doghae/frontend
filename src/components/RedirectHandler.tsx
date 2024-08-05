@@ -41,15 +41,20 @@ const kakaoLogin = async (code: string, navigate: any) => {
     const res = await api.get(`/oauth2/kakao/login?code=${code}`, {
       withCredentials: true,
     });
-    console.log(res);
+    console.log("Response Headers:", res.headers);
 
-    // Authorization 헤더 추출
-    const ACCESS_TOKEN = res.headers['authorization'];
+    // Authorization 헤더 추출 시 여러 방법을 시도
+    const ACCESS_TOKEN = res.headers['authorization'] || res.headers.Authorization;
     console.log("ACCESS_TOKEN", ACCESS_TOKEN);
+
+    // 토큰이 undefined인 경우 에러 처리
+    if (!ACCESS_TOKEN) {
+      throw new Error("유효하지 않은 토큰");
+    }
 
     // 로컬 스토리지에 토큰 저장
     localStorage.setItem("token", ACCESS_TOKEN);
-    //로그인 성공 후 메인페이지로 이동
+    // 로그인 성공 후 메인 페이지로 이동
     navigate("/", { replace: true });
   } catch (err) {
     if (axios.isAxiosError(err)) {
@@ -58,7 +63,7 @@ const kakaoLogin = async (code: string, navigate: any) => {
         err.response ? err.response.data : err.message
       );
     } else {
-      console.error("소셜로그인 에러", err);
+      console.error("소셜로그인 에러", (err as Error).message);
     }
     window.alert("로그인에 실패하였습니다.");
   }

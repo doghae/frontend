@@ -36,7 +36,7 @@ export const Header = () => {
         <div>
           {token ? (
             <UserInfo>
-              <UserIcon src="/public/images/user.svg" alt="user icon" />
+              <UserIcon src="/images/user.svg" alt="user icon" />
               <UserName>{token.slice(0, 5)}님</UserName>
             </UserInfo>
           ) : (

@@ -97,9 +97,8 @@ const LoginButton = styled.button`
 
 const UserName = styled.div`
   display: inline-block;
-  width: 100px;
-  height: 40px;
   padding: 0 10px;
+  height: 40px;
   font-size: 16px;
   font-weight: bold;
   color: #000; /* 글자 색상 */

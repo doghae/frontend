@@ -50,7 +50,7 @@ const kakaoLogin = async (code: string, navigate: any) => {
     // 로컬 스토리지에 토큰 저장
     localStorage.setItem("token", ACCESS_TOKEN);
     //로그인 성공 후 메인페이지로 이동
-    navigate("/main", { replace: true });
+    navigate("/", { replace: true });
   } catch (err) {
     if (axios.isAxiosError(err)) {
       console.error(

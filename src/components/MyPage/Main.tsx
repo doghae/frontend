@@ -5,10 +5,10 @@ import { UnderSection } from "./UnderSection";
 
 export const Main = () => (
   <Wrapper>
-    <StyledGrid
-      h={{ base: "1000px", md: "1500px" }}
+    <Grid
+      h={{ base: "1000px", md: "2000px" }}
       w="100%"
-      templateRows={{ base: "repeat(2, 1fr)", md: "500px 500px" }}
+      templateRows={{ base: "repeat(2, 1fr)", md: "800px 800px" }}
       templateColumns={{ base: "1fr", md: "repeat(1, 1fr)" }}
       gap={{ base: 50, md: 50 }}
       p={{ base: 5, md: 8 }} /* 화면 크기에 따른 패딩 설정 */
@@ -19,19 +19,12 @@ export const Main = () => (
       <GridItem id="section2" rowSpan={1} backgroundColor={"transparent"}>
         <UnderSection />
       </GridItem>
-    </StyledGrid>
+    </Grid>
   </Wrapper>
 );
 
 const Wrapper = styled.div`
-  width: 100%;
-  height: 100vh;
-  overflow: hidden; /* 전체 스크롤 숨김 */
-`;
-
-const StyledGrid = styled(Grid)`
-  overflow-y: auto; /* 내부 스크롤 허용 */
-  height: 100%; /* 그리드 높이를 부모의 높이에 맞춤 */
+  overflow-x: hidden; /* 수평 스크롤 숨김 */
 `;
 
 export default Main;

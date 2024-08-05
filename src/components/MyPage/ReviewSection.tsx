@@ -35,7 +35,7 @@ const Header = styled(Box)`
 `;
 
 const StyledImg = styled.img`
-  margin-top: -15px;
+  margin-bottom: -15px;
 `;
 
 const Title = styled(Text)`
@@ -52,7 +52,9 @@ const ContentBox = styled(Box)`
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 
   &:hover {
-    transform: scale(1.05);
+    background-color: #a2e1db;
+    color: #ffffff;
+  }
 `;
 
 const ContentTitle = styled(Text)`
@@ -63,11 +65,11 @@ const ContentTitle = styled(Text)`
 
 const StyledDivider = styled(Divider)`
   width: 80%; /* 길이를 ContentBox의 80%로 설정 */
-  border-color: #bfebe6; /* 색상을 두 번째 이미지와 동일하게 설정 */
+  border-color: #ECEAE4; /* 색상을 두 번째 이미지와 동일하게 설정 */
   border-width: 2px; /* 두께를 설정 */
   margin-left: 0; /* 왼쪽 끝에 맞춤 */
   margin-top: -5px;
-  margin-bottom: -5px;
+  margin-bottom: 7px;
 `;
 
 const ContentText = styled(Text)`

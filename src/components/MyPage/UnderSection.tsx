@@ -6,29 +6,24 @@ import MypageSection from "./MypageSection";
 export const UnderSection = () => {
   return (
     <Wrapper>
-      <LogoWrapper>
-        <LeftSection>
-          <ReviewSection />
-          <MypageSection />
-        </LeftSection>
-        <RightSection>
-          <AdBanner>광고 배너</AdBanner>
-        </RightSection>
-      </LogoWrapper>
+      <LeftSection>
+        <ReviewSection />
+        <MypageSection />
+      </LeftSection>
+      <RightSection>
+        <AdBanner>광고 배너</AdBanner>
+      </RightSection>
     </Wrapper>
   );
 };
 
-const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const LogoWrapper = styled.div`
+const Wrapper = styled(Flex)`
   width: 100%;
   max-width: 1200px;
-  text-align: center;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px; /* 두 섹션 사이의 간격 조절 */
 `;
 
 const LeftSection = styled(Box)`
@@ -46,15 +41,16 @@ const RightSection = styled(Box)`
 `;
 
 const AdBanner = styled(Box)`
-  width: 80%;
-  height: 80%;
-  background-color: #f5f5f5;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
+  font-size: 50px;
   border-radius: 10px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid #a2e1db;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 `;
 
 export default UnderSection;

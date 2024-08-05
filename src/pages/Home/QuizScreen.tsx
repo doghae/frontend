@@ -37,6 +37,8 @@ export const Quiz = () => {
       });
       console.log(response.data); // 받아온 데이터 콘솔에 출력
       setQuizData(response.data);
+
+      console.log(quizData.length);
     } catch (error) {
       console.error("데이터 가져오기 실패", error);
     }
@@ -44,6 +46,7 @@ export const Quiz = () => {
 
   return (
     <Container>
+
       {quizData.length > 0 ? (
         quizData.map((quiz, index) => (
           <QuizItem key={quiz.questionId}>

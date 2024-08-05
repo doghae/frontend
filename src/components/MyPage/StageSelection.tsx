@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { Box, Text, Flex, Grid, GridItem } from "@chakra-ui/react";
+import { Text, Flex, Grid, GridItem } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 
 const stages = Array.from({ length: 16 }, (_, i) => i + 1);
@@ -43,8 +43,8 @@ const LogoWrapper = styled.div`
 `;
 
 const Header = styled(Flex)`
-  margin-top: 20px;x
-  align-items: baseline;
+  margin-top: 20px;
+  align-items: flex-end; /* 아랫 라인 일치 */
   margin-bottom: 20px;
 `;
 
@@ -52,18 +52,21 @@ const StageTitle = styled(Text)`
   font-size: 40px;
   font-weight: bold;
   color: #000;
+  line-height: 1; /* 추가된 스타일 */
 `;
 
 const Subtitle = styled(Text)`
-  font-size: 20px;
+  font-size: 24px;
   color: #c927f6;
   margin-left: 10px;
+  line-height: 1.2; /* 추가된 스타일 */
 `;
 
 const CardContainer = styled(Grid)`
   background-color: #fff;
   padding: 20px;
   border-radius: 10px;
+  border: 1px solid #a2e1db;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   grid-template-columns: repeat(8, 1fr);
   gap: 20px;
@@ -72,7 +75,6 @@ const CardContainer = styled(Grid)`
 const StageCard = styled(GridItem)`
   background: linear-gradient(180deg, #55cbcd 0%, #a2e1db 100%);
   border-radius: 10px;
-  border: 1px solid #a2e1db;
   display: flex;
   align-items: center;
   justify-content: center;

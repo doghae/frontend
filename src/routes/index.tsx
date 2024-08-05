@@ -17,7 +17,6 @@ const router = createBrowserRouter([
     children: [
       { path: RouterPath.home, element: <RedirectHandler /> }, // 홈 페이지 대신 리디렉트 핸들러 추가
       { path: RouterPath.home, element: <HomePage /> }, // 필요에 따라 홈 페이지 경로 추가
-      { path: `${RouterPath.quiz}/:stage`, element: <Quiz /> }, // 수정된 경로 설정
     ],
   },
   {
@@ -28,6 +27,7 @@ const router = createBrowserRouter([
       { path: RouterPath.terms, element: <Terms /> },
       { path: RouterPath.privacy, element: <Privacy /> },
       { path: RouterPath.contact, element: <Contact /> },
+      { path: `${RouterPath.quiz}/:stage`, element: <Quiz /> }, // 수정된 경로 설정
     ],
   },
 ]);

@@ -12,7 +12,7 @@ export const Contents = () => {
       <Grid
         h={{ base: "2000px", md: "2500px" }}
         w="100%"
-        templateRows={{ base: "repeat(4, 1fr)", md: "1fr 300px 300px 500px" }}
+        templateRows={{ base: "repeat(4, 1fr)", md: "1fr 300px 300px 400px" }}
         templateColumns={{ base: "1fr", md: "repeat(1, 1fr)" }}
         gap={{ base: 50, md: 100 }}
         p={{ base: 5, md: 8 }} /* 화면 크기에 따른 패딩 설정 */

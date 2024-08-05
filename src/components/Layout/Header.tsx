@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
@@ -8,7 +7,7 @@ export const Header = () => {
   const REDIRECT_URI = "https://doghae.vercel.app/";
   const link = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
-  const { token, setToken } = useAuth();
+  const { token } = useAuth();
 
   const loginHandler = () => {
     window.location.href = link;
@@ -25,13 +24,13 @@ export const Header = () => {
           }}
         >
           <Link to={"/"}>
-            <Logo src="/assets/images/logo.svg" />
+            <Logo src="/images/logo.svg" />
           </Link>
         </div>
         <div>
           {token ? (
             <UserInfo>
-              <UserIcon src="/assets/images/user.svg" alt="user icon" />
+              <UserIcon src="/images/user.svg" alt="user icon" />
               <UserName>{token.slice(0, 5)} 님</UserName>
             </UserInfo>
           ) : (

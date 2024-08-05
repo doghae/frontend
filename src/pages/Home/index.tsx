@@ -2,6 +2,8 @@ import { Contents } from "@/components/HomePage/Contents";
 import styled from "@emotion/styled";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
+
 
 export const HomePage = () => {
   const [token, setToken] = useState<string | null>(null);
@@ -19,7 +21,7 @@ export const HomePage = () => {
 
   const fetchStageData = async (token: string) => {
     try {
-      const response = await axios.get('https://doghae.site/stage/2', {
+      const response = await axios.get('https://doghae.site/stage/1', {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -37,6 +39,7 @@ export const HomePage = () => {
       ) : (
         <Contents />
       )}
+      <StyledLink to="/quiz">문제풀이</StyledLink>
     </Wrapper>
   );
 };
@@ -52,6 +55,20 @@ const Message = styled.div`
   color: #000;
   text-align: center;
   margin-top: 20px;
+`;
+
+const StyledLink = styled(Link)`
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  color: #3c3c3f;
+  font-weight: 400;
+  line-height: 16.8px;
+  letter-spacing: -0.025em;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 export default HomePage;

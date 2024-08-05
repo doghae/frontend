@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import { Link, useLocation } from "react-router-dom";
-
 
 export const Header = () => {
   const REST_API_KEY = "af5896ef6b5436cd1b8d653c769c823e";
@@ -11,6 +10,14 @@ export const Header = () => {
   const loginHandler = () => {
     window.location.href = link;
   };
+
+  const [token, setToken] = useState<string | null>(null);
+
+  useEffect(() => {
+    // 로컬 스토리지에서 토큰을 가져와서 상태에 저장
+    const storedToken = localStorage.getItem("token");
+    setToken(storedToken);
+  }, []);
 
   return (
     <Wrapper>
@@ -27,7 +34,11 @@ export const Header = () => {
           </Link>
         </div>
         <div>
-          <LoginButton onClick={loginHandler}>로그인</LoginButton>
+          {token ? (
+            <UserName>{token.slice(0, 5)}님 환영합니다.</UserName>
+          ) : (
+            <LoginButton onClick={loginHandler}>로그인</LoginButton>
+          )}
         </div>
       </Container>
     </Wrapper>
@@ -82,6 +93,22 @@ const LoginButton = styled.button`
     background-color: #a2e1db; /* 호버 시 배경 색상 */
     color: #fff; /* 호버 시 글자 색상 */
   }
+`;
+
+const UserName = styled.div`
+  display: inline-block;
+  width: 100px;
+  height: 40px;
+  padding: 0 10px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #000; /* 글자 색상 */
+  border: 2px solid #a2e1db; /* 테두리 */
+  border-radius: 20px;
+  text-align: center;
+  line-height: 40px;
+  cursor: pointer;
+  background-color: transparent;
 `;
 
 export default Header;

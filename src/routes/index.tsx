@@ -6,6 +6,8 @@ import { RouterPath } from "./path";
 import { Terms } from "@/pages/Extra/Terms";
 import { Privacy } from "@/pages/Extra/Privacy";
 import { Contact } from "@/pages/Extra/Contact";
+import { Main } from "@/pages/Home/MainPage";
+import { Quiz } from "@/pages/Home/QuizScreen";
 import RedirectHandler from "@/components/RedirectHandler"; // import 추가
 
 const router = createBrowserRouter([

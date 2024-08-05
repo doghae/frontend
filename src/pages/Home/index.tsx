@@ -19,7 +19,7 @@ export const HomePage = () => {
 
   const fetchStageData = async (token: string) => {
     try {
-      const response = await axios.get('https://doghae.site/stage/1', {
+      const response = await axios.get('https://doghae.site/stage/2', {
         headers: {
           Authorization: `Bearer ${token}`
         }

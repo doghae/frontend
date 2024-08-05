@@ -29,6 +29,8 @@ export const Quiz = () => {
       }, 1000);
 
       return () => clearInterval(timerId);
+    } else if (timeLeft === 0 && quizData.length > 0) {
+      handleNextQuestion();
     }
   }, [timeLeft]);
 
@@ -50,12 +52,16 @@ export const Quiz = () => {
     }
   };
 
-  const handleChoiceClick = () => {
+  const handleNextQuestion = () => {
     if (currentQuestionIndex < quizData.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
       alert("모든 문제를 다 푸셨습니다!");
     }
+  };
+
+  const handleChoiceClick = () => {
+    handleNextQuestion();
   };
 
   return (

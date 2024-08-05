@@ -35,36 +35,39 @@ export const Quiz = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response.data); // 받아온 데이터 콘솔에 출력
-      setQuizData(response.data);
-
-      console.log(quizData.length);
+      console.log("Response data:", response.data); // 받아온 데이터 콘솔에 출력
+      if (Array.isArray(response.data)) {
+        setQuizData(response.data);
+      } else {
+        console.error("Received data is not an array:", response.data);
+      }
     } catch (error) {
       console.error("데이터 가져오기 실패", error);
     }
   };
 
+  useEffect(() => {
+    console.log("Quiz data updated:", quizData);
+  }, [quizData]);
+
   return (
     <Container>
-
       {quizData.length > 0 ? (
-        quizData.map((quiz, index) => (
-          <QuizItem key={quiz.questionId}>
-            <QuestionHeader>문제 {index + 1}</QuestionHeader>
-            <Question>{quiz.problem}</Question>
-            <Options>
-              {quiz.choices.map((choice: string, choiceIndex: number) => (
-                <Option key={choiceIndex}>
-                  {choiceIndex + 1}. {choice}
-                </Option>
-              ))}
-            </Options>
-            <Timer>
-              남은 시간: {String(Math.floor(timeLeft / 60)).padStart(2, "0")}:
-              {String(timeLeft % 60).padStart(2, "0")}
-            </Timer>
-          </QuizItem>
-        ))
+        <>
+          <QuestionHeader>문제 1</QuestionHeader>
+          <Question>{quizData[0].problem}</Question>
+          <Options>
+            {quizData[0].choices.map((choice: string, choiceIndex: number) => (
+              <Option key={choiceIndex}>
+                {choiceIndex + 1}. {choice}
+              </Option>
+            ))}
+          </Options>
+          <Timer>
+            남은 시간: {String(Math.floor(timeLeft / 60)).padStart(2, "0")}:
+            {String(timeLeft % 60).padStart(2, "0")}
+          </Timer>
+        </>
       ) : (
         <p>로딩 중...</p>
       )}
@@ -84,12 +87,6 @@ const QuestionHeader = styled.div`
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 20px;
-`;
-
-const QuizItem = styled.div`
-  margin-bottom: 40px;
-  width: 100%;
-  max-width: 600px;
 `;
 
 const Question = styled.div`

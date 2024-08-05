@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "@emotion/styled";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export const Header = () => {
   const REST_API_KEY = "af5896ef6b5436cd1b8d653c769c823e";
@@ -35,7 +35,10 @@ export const Header = () => {
         </div>
         <div>
           {token ? (
-            <UserName>{token.slice(0, 5)}님 환영합니다.</UserName>
+            <UserInfo>
+              <UserIcon src="/public/images/user.svg" alt="user icon" />
+              <UserName>{token.slice(0, 5)}님</UserName>
+            </UserInfo>
           ) : (
             <LoginButton onClick={loginHandler}>로그인</LoginButton>
           )}
@@ -95,18 +98,25 @@ const LoginButton = styled.button`
   }
 `;
 
+const UserInfo = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const UserIcon = styled.img`
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+`;
+
 const UserName = styled.div`
   display: inline-block;
-  padding: 0 10px;
   height: 40px;
   font-size: 16px;
   font-weight: bold;
   color: #000; /* 글자 색상 */
-  border: 2px solid #a2e1db; /* 테두리 */
-  border-radius: 20px;
   text-align: center;
   line-height: 40px;
-  cursor: pointer;
   background-color: transparent;
 `;
 

@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import axios from "axios";
 import { Box, Text } from "@chakra-ui/react";
 import { useAuth } from "@/context/AuthContext";
+import { useUser } from "@/context/UserContext";  
 
 interface ReviewItem {
   questionId: number;
@@ -13,6 +14,27 @@ interface ReviewItem {
 export const ReviewPage = () => {
   const { token } = useAuth();
   const [reviewData, setReviewData] = useState<ReviewItem[]>([]);
+  const { state, dispatch } = useUser(); // UserContext 사용
+
+  useEffect(() => {
+    if (token) {
+      fetchNickname(token);
+    }
+  }, [token]);
+
+  const fetchNickname = async (token: string) => {
+    try {
+      const response = await axios.get("https://doghae.site/user/nickname", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const nickname = response.data.data; // 닉네임 추출
+      dispatch({ type: "SET_NICKNAME", payload: nickname }); // 상태 업데이트
+    } catch (error) {
+      console.error("데이터 가져오기 실패", error);
+    }
+  };
 
   useEffect(() => {
     if (token) {

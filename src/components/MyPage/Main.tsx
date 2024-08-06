@@ -1,9 +1,35 @@
+import React, { useEffect } from "react";
 import styled from "@emotion/styled";
 import { Grid, GridItem } from "@chakra-ui/react";
 import { StageSelection } from "./StageSelection";
 import { UnderSection } from "./UnderSection";
+import axios from "axios";
+import { useAuth } from "@/context/AuthContext";
+import { useUser } from "@/context/UserContext";
 
 export const Main = () => {
+  const { token } = useAuth();
+  const { state, dispatch } = useUser(); // UserContext 사용
+
+  useEffect(() => {
+    if (token) {
+      fetchNickname(token);
+    }
+  }, [token]);
+
+  const fetchNickname = async (token: string) => {
+    try {
+      const response = await axios.get("https://doghae.site/user/nickname", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const nickname = response.data.data; // 닉네임 추출
+      dispatch({ type: "SET_NICKNAME", payload: nickname }); // 상태 업데이트
+    } catch (error) {
+      console.error("데이터 가져오기 실패", error);
+    }
+  };
 
   return (
     <Wrapper>

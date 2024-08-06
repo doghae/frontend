@@ -49,12 +49,11 @@ export const Header: React.FC = () => {
       );
 
       if (response.status === 200) {
-        // 닉네임 변경 성공 시 상태 업데이트 및 모달 닫기
+        console.log("Nickname update successful"); // 상태 업데이트 로그
         dispatch({ type: "SET_NICKNAME", payload: newNickname });
         setNewNickname(""); // 입력 필드 초기화
         closeModal();
       } else {
-        // Handle error
         console.error("Failed to update nickname");
       }
     } catch (error) {

@@ -181,7 +181,7 @@ const UserName = styled.div`
 const EditButton = styled.button`
   margin-left: 10px;
   padding: 0 10px;
-  height: 35px;
+  height: 30px;
   font-size: 14px;
   font-weight: bold;
   color: #fff;

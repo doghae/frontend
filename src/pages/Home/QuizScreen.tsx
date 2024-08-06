@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import axios from "axios";
+import { useUser } from "@/context/UserContext"; // UserContext import
 
 export const Quiz = () => {
   const [timeLeft, setTimeLeft] = useState(0);
@@ -14,6 +15,8 @@ export const Quiz = () => {
   const [score, setScore] = useState<number>(0);
   const [timeOverQuestions, setTimeOverQuestions] = useState<number[]>([]);
   const [isLastQuestionAnswered, setIsLastQuestionAnswered] = useState(false);
+
+  const { state, dispatch } = useUser(); // UserContext 사용, 닉네임 가져오기
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
@@ -157,7 +160,7 @@ export const Quiz = () => {
       <ResultContainer>
         <h1>수고하셨습니다 😊</h1>
         <ResultBox>
-          {token && <UserName>{token.slice(0, 5)} 님의 점수는</UserName>}
+          {token && <UserName>{state.nickname} 님의 점수는</UserName>}
           <ResultDetail>
             맞은 개수: {correctAnswers}개<br />
             틀린 개수: {incorrectAnswers}개

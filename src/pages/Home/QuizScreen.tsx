@@ -7,10 +7,13 @@ export const Quiz = () => {
   const [token, setToken] = useState<string | null>(null);
   const [quizData, setQuizData] = useState<any[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState<{ questionId: number; answer: string }[]>([]);
+  const [answers, setAnswers] = useState<
+    { questionId: number; answer: string }[]
+  >([]);
   const [resultData, setResultData] = useState<any>(null);
   const [score, setScore] = useState<number>(0);
   const [timeOverQuestions, setTimeOverQuestions] = useState<number[]>([]);
+  const [isLastQuestionAnswered, setIsLastQuestionAnswered] = useState(false);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
@@ -39,6 +42,12 @@ export const Quiz = () => {
       handleTimeOut();
     }
   }, [timeLeft]);
+
+  useEffect(() => {
+    if (isLastQuestionAnswered) {
+      submitAnswers(answers);
+    }
+  }, [isLastQuestionAnswered]);
 
   const fetchStageData = async (token: string, quizId: string) => {
     try {
@@ -77,9 +86,7 @@ export const Quiz = () => {
     setAnswers(newAnswers);
 
     if (currentQuestionIndex === quizData.length - 1) {
-      setTimeout(() => {
-        submitAnswers(newAnswers);
-      }, 0); // 상태 업데이트 후 호출하기 위해 setTimeout 사용
+      setIsLastQuestionAnswered(true);
     } else {
       handleNextQuestion();
     }
@@ -98,15 +105,15 @@ export const Quiz = () => {
     setTimeOverQuestions([...timeOverQuestions, currentQuestion.questionId]);
 
     if (currentQuestionIndex === quizData.length - 1) {
-      setTimeout(() => {
-        submitAnswers(newAnswers);
-      }, 0); // 상태 업데이트 후 호출하기 위해 setTimeout 사용
+      setIsLastQuestionAnswered(true);
     } else {
       handleNextQuestion();
     }
   };
 
-  const submitAnswers = async (finalAnswers: { questionId: number; answer: string }[]) => {
+  const submitAnswers = async (
+    finalAnswers: { questionId: number; answer: string }[]
+  ) => {
     const pathSegments = window.location.pathname.split("/");
     const quizId = pathSegments[pathSegments.length - 1]; // URL의 마지막 부분을 가져옴
 
@@ -175,7 +182,9 @@ export const Quiz = () => {
                 <Option
                   key={choiceIndex}
                   onClick={() => handleChoiceClick(choice)}
-                  disabled={timeOverQuestions.includes(quizData[currentQuestionIndex].questionId)}
+                  disabled={timeOverQuestions.includes(
+                    quizData[currentQuestionIndex].questionId
+                  )}
                 >
                   {choiceIndex + 1}. {choice}
                 </Option>

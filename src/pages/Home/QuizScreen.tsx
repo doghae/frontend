@@ -19,6 +19,26 @@ export const Quiz = () => {
   const { state, dispatch } = useUser(); // UserContext 사용, 닉네임 가져오기
 
   useEffect(() => {
+    if (token) {
+      fetchNickname(token);
+    }
+  }, [token]);
+
+  const fetchNickname = async (token: string) => {
+    try {
+      const response = await axios.get("https://doghae.site/user/nickname", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const nickname = response.data.data; // 닉네임 추출
+      dispatch({ type: "SET_NICKNAME", payload: nickname }); // 상태 업데이트
+    } catch (error) {
+      console.error("데이터 가져오기 실패", error);
+    }
+  };
+
+  useEffect(() => {
     const storedToken = localStorage.getItem("token");
     setToken(storedToken);
     if (storedToken) {

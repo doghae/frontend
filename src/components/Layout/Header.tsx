@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { useUser } from "@/context/UserContext"; // UserContext import
+import axios from "axios";
 import Modal from "./NicknameChangeModal"; // Assume you have a Modal component
 
 export const Header: React.FC = () => {
@@ -34,15 +35,20 @@ export const Header: React.FC = () => {
 
   const saveNickname = async () => {
     try {
-      const response = await fetch("https://doghae.site/user/nickname", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+      const response = await axios.post(
+        "https://doghae.site/user/nickname",
+        {
+          nickname: newNickname,
         },
-        body: JSON.stringify({ nickname: newNickname }),
-      });
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // Authorization 헤더 추가
+          },
+        }
+      );
 
-      if (response.ok) {
+      if (response.status === 200) {
         // Assume you have a method to update the nickname in the UserContext
         dispatch({ type: "SET_NICKNAME", payload: newNickname });
         closeModal();

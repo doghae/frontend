@@ -49,8 +49,9 @@ export const Header: React.FC = () => {
       );
 
       if (response.status === 200) {
-        // Assume you have a method to update the nickname in the UserContext
+        // 닉네임 변경 성공 시 상태 업데이트 및 모달 닫기
         dispatch({ type: "SET_NICKNAME", payload: newNickname });
+        setNewNickname(""); // 입력 필드 초기화
         closeModal();
       } else {
         // Handle error

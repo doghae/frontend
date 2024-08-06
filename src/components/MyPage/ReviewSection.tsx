@@ -1,14 +1,22 @@
+import React from "react";
 import styled from "@emotion/styled";
 import { Box, Text, Divider } from "@chakra-ui/react";
+import { useNavigate } from "react-router-dom";
 
 const ReviewSection = () => {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate("/review");
+  };
+
   return (
     <SectionWrapper>
       <Header>
         <StyledImg src="/images/developing.svg" alt="말풍선" />
         <Title>Review</Title>
       </Header>
-      <ContentBox>
+      <ContentBox onClick={handleClick}>
         <ContentTitle>복습하러 가기 &gt;</ContentTitle>
         <StyledDivider />
         <ContentText>
@@ -66,7 +74,7 @@ const ContentTitle = styled(Text)`
 
 const StyledDivider = styled(Divider)`
   width: 80%; /* 길이를 ContentBox의 80%로 설정 */
-  border-color: #ECEAE4; /* 색상을 두 번째 이미지와 동일하게 설정 */
+  border-color: #eceae4; /* 색상을 두 번째 이미지와 동일하게 설정 */
   border-width: 2px; /* 두께를 설정 */
   margin-left: 0; /* 왼쪽 끝에 맞춤 */
   margin-top: -5px;

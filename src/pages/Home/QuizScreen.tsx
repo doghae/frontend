@@ -7,7 +7,9 @@ export const Quiz = () => {
   const [token, setToken] = useState<string | null>(null);
   const [quizData, setQuizData] = useState<any[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState<{ questionId: number; answer: string }[]>([]);
+  const [answers, setAnswers] = useState<
+    { questionId: number; answer: string }[]
+  >([]);
   const [resultData, setResultData] = useState<any>(null);
   const [score, setScore] = useState<number>(0);
 
@@ -15,7 +17,7 @@ export const Quiz = () => {
     const storedToken = localStorage.getItem("token");
     setToken(storedToken);
     if (storedToken) {
-      const pathSegments = window.location.pathname.split('/');
+      const pathSegments = window.location.pathname.split("/");
       const quizId = pathSegments[pathSegments.length - 1]; // URL의 마지막 부분을 가져옴
       fetchStageData(storedToken, quizId);
     }
@@ -60,41 +62,45 @@ export const Quiz = () => {
   const handleNextQuestion = () => {
     if (currentQuestionIndex < quizData.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
-    } else {
-      submitAnswers();
     }
   };
 
   const handleChoiceClick = (choice: string) => {
     const currentQuestion = quizData[currentQuestionIndex];
-    setAnswers((prevAnswers) => [
-      ...prevAnswers,
+    const newAnswers = [
+      ...answers,
       {
         questionId: currentQuestion.questionId,
         answer: choice,
       },
-    ]);
+    ];
+    setAnswers(newAnswers);
 
-    // 다음 문제로 넘어가는 것을 함수 호출 후 실행
     if (currentQuestionIndex === quizData.length - 1) {
-      submitAnswers();
+      submitAnswers(newAnswers);
     } else {
       handleNextQuestion();
     }
   };
 
-  const submitAnswers = async () => {
-    const pathSegments = window.location.pathname.split('/');
+  const submitAnswers = async (
+    finalAnswers: { questionId: number; answer: string }[]
+  ) => {
+    const pathSegments = window.location.pathname.split("/");
     const quizId = pathSegments[pathSegments.length - 1]; // URL의 마지막 부분을 가져옴
 
     try {
-      const response = await axios.post(`https://doghae.site/stage/${quizId}`, {
-        answers: answers,
-      }, {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const response = await axios.post(
+        `https://doghae.site/stage/${quizId}`,
+        {
+          answers: finalAnswers,
         },
-      });
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       console.log("Submission result:", response.data);
       calculateScore(response.data.data);
       setResultData(response.data); // 결과 데이터를 상태에 저장
@@ -104,15 +110,19 @@ export const Quiz = () => {
   };
 
   const calculateScore = (results: any[]) => {
-    const correctAnswers = results.filter(result => result.answer).length;
+    const correctAnswers = results.filter((result) => result.answer).length;
     const totalQuestions = results.length;
     const score = (correctAnswers / totalQuestions) * 100;
     setScore(score);
   };
 
   if (resultData) {
-    const correctAnswers = resultData.data.filter((result: any) => result.answer).length;
-    const incorrectAnswers = resultData.data.filter((result: any) => !result.answer).length;
+    const correctAnswers = resultData.data.filter(
+      (result: any) => result.answer
+    ).length;
+    const incorrectAnswers = resultData.data.filter(
+      (result: any) => !result.answer
+    ).length;
 
     return (
       <ResultContainer>
@@ -124,7 +134,9 @@ export const Quiz = () => {
             틀린 개수: {incorrectAnswers}개
           </ResultDetail>
           <Score>{Math.round(score)}점 입니다!</Score>
-          <MainButton onClick={() => window.location.href = '/'}>메인으로</MainButton>
+          <MainButton onClick={() => (window.location.href = "/")}>
+            메인으로
+          </MainButton>
         </ResultBox>
       </ResultContainer>
     );
@@ -137,11 +149,16 @@ export const Quiz = () => {
           <QuestionHeader>문제 {currentQuestionIndex + 1}</QuestionHeader>
           <Question>{quizData[currentQuestionIndex].problem}</Question>
           <Options>
-            {quizData[currentQuestionIndex].choices.map((choice: string, choiceIndex: number) => (
-              <Option key={choiceIndex} onClick={() => handleChoiceClick(choice)}>
-                {choiceIndex + 1}. {choice}
-              </Option>
-            ))}
+            {quizData[currentQuestionIndex].choices.map(
+              (choice: string, choiceIndex: number) => (
+                <Option
+                  key={choiceIndex}
+                  onClick={() => handleChoiceClick(choice)}
+                >
+                  {choiceIndex + 1}. {choice}
+                </Option>
+              )
+            )}
           </Options>
           <Timer>
             남은 시간: {String(Math.floor(timeLeft / 60)).padStart(2, "0")}:

@@ -105,11 +105,14 @@ export const ReviewPage = () => {
 
   return (
     <ReviewContainer>
-      {reviewData.map(item => (
-        <KeywordBox key={item.questionId} onClick={() => handleKeywordClick(item.questionId)}>
-          <Text>{item.keyword}</Text>
-        </KeywordBox>
-      ))}
+      <Title>헷갈리는 단어들을 눌러 복습해봐요🦁</Title>
+      <ListContainer>
+        {reviewData.map(item => (
+          <KeywordBox key={item.questionId} onClick={() => handleKeywordClick(item.questionId)}>
+            <Text>{item.keyword}</Text>
+          </KeywordBox>
+        ))}
+      </ListContainer>
 
       <Modal isOpen={isModalOpen} onClose={handleModalClose} isCentered>
         <ModalOverlay />
@@ -149,6 +152,25 @@ const ReviewContainer = styled(Box)`
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+const Title = styled(Text)`
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+`;
+
+const ListContainer = styled(Box)`
+  width: 80%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 `;
 
 const KeywordBox = styled(Box)`

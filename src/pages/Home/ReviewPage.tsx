@@ -58,7 +58,7 @@ export const ReviewPage = () => {
 
   const fetchQuestionData = async (questionId: number) => {
     try {
-      const response = await axios.get(`https://doghae.site/stage/${questionId}`, {
+      const response = await axios.get(`https://doghae.site/question/${questionId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

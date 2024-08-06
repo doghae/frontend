@@ -181,7 +181,7 @@ const UserName = styled.div`
 const EditButton = styled.button`
   margin-left: 10px;
   padding: 0 10px;
-  height: 40px;
+  height: 35px;
   font-size: 14px;
   font-weight: bold;
   color: #fff;
@@ -190,7 +190,7 @@ const EditButton = styled.button`
   background-color: #a2e1db;
 
   &:hover {
-  transform: scale(1.05);
+    transform: scale(1.05);
     background-color: #55cbcd;
   }
 `;

@@ -57,7 +57,7 @@ export const ReviewPage = () => {
 
   return (
     <ReviewContainer>
-      <Title>헷갈리는 단어들을 눌러 복습해봐요🦁</Title>
+      <Title>헷갈리는 단어들을 확인해봐요🦁</Title>
       <ListContainer>
         {reviewData.map(item => (
           <KeywordBox key={item.questionId}>

@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 import styled from "@emotion/styled";
 import axios from "axios";
-import { Box, Text, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter, ModalBody, ModalCloseButton, Button } from "@chakra-ui/react";
+import {
+  Box, Text, Modal, ModalOverlay, ModalContent, ModalHeader, ModalFooter,
+  ModalBody, ModalCloseButton, Button
+} from "@chakra-ui/react";
 import { useAuth } from "@/context/AuthContext";
 
 interface ReviewItem {
@@ -15,12 +18,30 @@ export const ReviewPage = () => {
   const [reviewData, setReviewData] = useState<ReviewItem[]>([]);
   const [selectedQuestion, setSelectedQuestion] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(0);
 
   useEffect(() => {
     if (token) {
       fetchReviewData(token);
     }
   }, [token]);
+
+  useEffect(() => {
+    if (selectedQuestion) {
+      setTimeLeft(selectedQuestion.stage.timeLimit);
+    }
+  }, [selectedQuestion]);
+
+  useEffect(() => {
+    if (timeLeft > 0) {
+      const timerId = setInterval(() => {
+        setTimeLeft(timeLeft - 1);
+      }, 1000);
+      return () => clearInterval(timerId);
+    } else if (timeLeft === 0 && selectedQuestion) {
+      handleTimeOut();
+    }
+  }, [timeLeft]);
 
   const fetchReviewData = async (token: string) => {
     try {
@@ -77,6 +98,11 @@ export const ReviewPage = () => {
     }
   };
 
+  const handleTimeOut = () => {
+    alert("시간 초과! 문제를 다시 풀어보세요.");
+    handleModalClose();
+  };
+
   return (
     <ReviewContainer>
       {reviewData.map(item => (
@@ -85,7 +111,7 @@ export const ReviewPage = () => {
         </KeywordBox>
       ))}
 
-      <Modal isOpen={isModalOpen} onClose={handleModalClose}>
+      <Modal isOpen={isModalOpen} onClose={handleModalClose} isCentered>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>문제</ModalHeader>
@@ -102,6 +128,10 @@ export const ReviewPage = () => {
                     </Option>
                   ))}
                 </Options>
+                <Timer>
+                  남은 시간: {String(Math.floor(timeLeft / 60)).padStart(2, "0")}:
+                  {String(timeLeft % 60).padStart(2, "0")}
+                </Timer>
               </Container>
             )}
           </ModalBody>
@@ -159,7 +189,7 @@ const Options = styled.div`
   max-width: 400px;
 `;
 
-const Option = styled.button`
+const Option = styled.button<{ disabled?: boolean }>`
   background-color: #f5f5f5;
   border: none;
   padding: 10px;
@@ -170,6 +200,16 @@ const Option = styled.button`
   &:hover {
     background-color: #e0e0e0;
   }
+  &:disabled {
+    background-color: #e0e0e0;
+    cursor: not-allowed;
+  }
+`;
+
+const Timer = styled.div`
+  margin-top: 20px;
+  font-size: 12px;
+  color: #888;
 `;
 
 export default ReviewPage;

@@ -23,7 +23,7 @@ export const Main = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response.data.nickname); // 받아온 닉네임을 콘솔에 출력
+      console.log(response); // 받아온 닉네임을 콘솔에 출력
     } catch (error) {
       console.error("데이터 가져오기 실패", error);
     }

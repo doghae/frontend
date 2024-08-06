@@ -43,7 +43,8 @@ const Header = styled(Box)`
 `;
 
 const StyledImg = styled.img`
-  margin-bottom: -17px;
+  height: 40px;
+  margin-bottom: -20px;
 `;
 
 const Title = styled(Text)`

@@ -186,13 +186,14 @@ const EditButton = styled.button`
   font-weight: bold;
   color: #000;
   border: 2px solid #a2e1db;
-  border-radius: 20px;
+  border-radius: 5px;
   cursor: pointer;
-  background-color: transparent;
+  background-color: #eee;
 
   &:hover {
     background-color: #a2e1db;
     color: #fff;
+    transform: scale(1.05);
   }
 `;
 

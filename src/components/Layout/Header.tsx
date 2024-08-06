@@ -48,7 +48,7 @@ export const Header: React.FC = () => {
         }
       );
 
-      if (response.status === 204) {
+      if (response.status === 204 || response.status === 200) {
         console.log("Nickname update successful"); // 상태 업데이트 로그
         dispatch({ type: "SET_NICKNAME", payload: newNickname });
         setNewNickname(""); // 입력 필드 초기화

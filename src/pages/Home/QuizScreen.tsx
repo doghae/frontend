@@ -12,6 +12,7 @@ export const Quiz = () => {
   >([]);
   const [resultData, setResultData] = useState<any>(null);
   const [score, setScore] = useState<number>(0);
+  const [timeOverQuestions, setTimeOverQuestions] = useState<number[]>([]);
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
@@ -62,6 +63,9 @@ export const Quiz = () => {
   const handleNextQuestion = () => {
     if (currentQuestionIndex < quizData.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
+      setTimeLeft(quizData[currentQuestionIndex + 1].stage.timeLimit);
+    } else {
+      submitAnswers();
     }
   };
 
@@ -76,28 +80,25 @@ export const Quiz = () => {
     ];
     setAnswers(newAnswers);
 
-    if (currentQuestionIndex === quizData.length - 1) {
-      submitAnswers(newAnswers);
-    } else {
-      handleNextQuestion();
-    }
+    handleNextQuestion();
   };
 
   const handleTimeOut = () => {
-    const incompleteAnswers = quizData
-      .slice(currentQuestionIndex)
-      .map((question: any) => ({
-        questionId: question.questionId,
+    const currentQuestion = quizData[currentQuestionIndex];
+    const newAnswers = [
+      ...answers,
+      {
+        questionId: currentQuestion.questionId,
         answer: "시간초과",
-      }));
+      },
+    ];
+    setAnswers(newAnswers);
+    setTimeOverQuestions([...timeOverQuestions, currentQuestion.questionId]);
 
-    const finalAnswers = [...answers, ...incompleteAnswers];
-    submitAnswers(finalAnswers);
+    handleNextQuestion();
   };
 
-  const submitAnswers = async (
-    finalAnswers: { questionId: number; answer: string }[]
-  ) => {
+  const submitAnswers = async () => {
     const pathSegments = window.location.pathname.split("/");
     const quizId = pathSegments[pathSegments.length - 1]; // URL의 마지막 부분을 가져옴
 
@@ -105,7 +106,7 @@ export const Quiz = () => {
       const response = await axios.post(
         `https://doghae.site/stage/${quizId}`,
         {
-          answers: finalAnswers,
+          answers: answers,
         },
         {
           headers: {
@@ -166,6 +167,9 @@ export const Quiz = () => {
                 <Option
                   key={choiceIndex}
                   onClick={() => handleChoiceClick(choice)}
+                  disabled={timeOverQuestions.includes(
+                    quizData[currentQuestionIndex].questionId
+                  )}
                 >
                   {choiceIndex + 1}. {choice}
                 </Option>
@@ -217,7 +221,7 @@ const Options = styled.div`
   max-width: 400px;
 `;
 
-const Option = styled.button`
+const Option = styled.button<{ disabled?: boolean }>`
   background-color: #f5f5f5;
   border: none;
   padding: 10px;
@@ -227,6 +231,10 @@ const Option = styled.button`
   cursor: pointer;
   &:hover {
     background-color: #e0e0e0;
+  }
+  &:disabled {
+    background-color: #e0e0e0;
+    cursor: not-allowed;
   }
 `;
 

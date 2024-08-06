@@ -158,6 +158,7 @@ const Title = styled(Text)`
   font-size: 24px;
   font-weight: bold;
   text-align: center;
+  margin-top: 50px;
   margin-bottom: 20px;
 `;
 

@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
-import axios from "axios";
 
 export const Header = () => {
   const REST_API_KEY = "af5896ef6b5436cd1b8d653c769c823e";
@@ -10,27 +8,6 @@ export const Header = () => {
   const link = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
   const { token } = useAuth();
-  const [nickname, setNickname] = useState<string>("");
-
-  useEffect(() => {
-    // 토큰이 있을 때 서버에서 닉네임 정보를 가져오기
-    if (token) {
-      fetchNickname(token);
-    }
-  }, [token]);
-
-  const fetchNickname = async (token: string) => {
-    try {
-      const response = await axios.get("https://doghae.site/user/nickname", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setNickname(response.data.nickname); // 받아온 닉네임을 상태에 저장
-    } catch (error) {
-      console.error("데이터 가져오기 실패", error);
-    }
-  };
 
   const loginHandler = () => {
     window.location.href = link;
@@ -54,7 +31,7 @@ export const Header = () => {
           {token ? (
             <UserInfo>
               <UserIcon src="/images/user.svg" alt="user icon" />
-              <UserName>{nickname} 님</UserName>
+              <UserName>{token.slice(0, 5)} 님</UserName>
             </UserInfo>
           ) : (
             <LoginButton onClick={loginHandler}>로그인</LoginButton>

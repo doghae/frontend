@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
+import { useUser } from "@/context/UserContext"; // UserContext import
 
 export const Header = () => {
   const REST_API_KEY = "af5896ef6b5436cd1b8d653c769c823e";
@@ -8,6 +9,7 @@ export const Header = () => {
   const link = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
   const { token } = useAuth();
+  const { state } = useUser(); // UserContext 사용
 
   const loginHandler = () => {
     window.location.href = link;
@@ -31,7 +33,7 @@ export const Header = () => {
           {token ? (
             <UserInfo>
               <UserIcon src="/images/user.svg" alt="user icon" />
-              <UserName>{token.slice(0, 5)} 님</UserName>
+              <UserName>{state.nickname} 님</UserName>
             </UserInfo>
           ) : (
             <LoginButton onClick={loginHandler}>로그인</LoginButton>

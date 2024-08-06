@@ -3,14 +3,15 @@ import styled from "@emotion/styled";
 import { Grid, GridItem } from "@chakra-ui/react";
 import axios from "axios";
 import { useAuth } from "@/context/AuthContext";
+import { useUser } from "@/context/UserContext"; // UserContext import
 import { StageSelection } from "./StageSelection";
 import { UnderSection } from "./UnderSection";
 
 export const Main = () => {
   const { token } = useAuth();
+  const { state, dispatch } = useUser(); // UserContext 사용
 
   useEffect(() => {
-    // 토큰이 있을 때 서버에서 닉네임 정보를 가져오기
     if (token) {
       fetchNickname(token);
     }
@@ -23,7 +24,8 @@ export const Main = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response); // 받아온 닉네임을 콘솔에 출력
+      const nickname = response.data.data; // 닉네임 추출
+      dispatch({ type: "SET_NICKNAME", payload: nickname }); // 상태 업데이트
     } catch (error) {
       console.error("데이터 가져오기 실패", error);
     }
@@ -37,7 +39,7 @@ export const Main = () => {
         templateRows={{ base: "repeat(2, 1fr)", md: "1fr 500px" }}
         templateColumns={{ base: "1fr", md: "repeat(1, 1fr)" }}
         gap={{ base: 50, md: 100 }}
-        p={{ base: 5, md: 8 }} /* 화면 크기에 따른 패딩 설정 */
+        p={{ base: 5, md: 8 }}
       >
         <GridItem id="section1" rowSpan={1} backgroundColor={"transparent"}>
           <StageSelection />
@@ -51,7 +53,7 @@ export const Main = () => {
 };
 
 const Wrapper = styled.div`
-  overflow-x: hidden; /* 수평 스크롤 숨김 */
+  overflow-x: hidden;
 `;
 
 export default Main;

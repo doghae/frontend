@@ -1,18 +1,58 @@
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { useUser } from "@/context/UserContext"; // UserContext import
+import Modal from "./NicknameChangeModal"; // Assume you have a Modal component
 
-export const Header = () => {
+export const Header: React.FC = () => {
   const REST_API_KEY = "af5896ef6b5436cd1b8d653c769c823e";
   const REDIRECT_URI = "https://doghae.vercel.app/";
   const link = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
   const { token } = useAuth();
-  const { state } = useUser(); // UserContext 사용
+  const { state, dispatch } = useUser(); // UserContext 사용
+
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [newNickname, setNewNickname] = useState("");
 
   const loginHandler = () => {
     window.location.href = link;
+  };
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
+  const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewNickname(e.target.value);
+  };
+
+  const saveNickname = async () => {
+    try {
+      const response = await fetch("https://doghae.site/user/nickname", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ nickname: newNickname }),
+      });
+
+      if (response.ok) {
+        // Assume you have a method to update the nickname in the UserContext
+        dispatch({ type: "SET_NICKNAME", payload: newNickname });
+        closeModal();
+      } else {
+        // Handle error
+        console.error("Failed to update nickname");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
@@ -34,12 +74,28 @@ export const Header = () => {
             <UserInfo>
               <UserIcon src="/images/user.svg" alt="user icon" />
               <UserName>{state.nickname} 님</UserName>
+              <EditButton onClick={openModal}>수정</EditButton>
             </UserInfo>
           ) : (
             <LoginButton onClick={loginHandler}>로그인</LoginButton>
           )}
         </div>
       </Container>
+      {isModalOpen && (
+        <Modal>
+          <ModalContent>
+            <h2>닉네임 수정</h2>
+            <Input
+              type="text"
+              value={newNickname}
+              onChange={handleNicknameChange}
+              placeholder="새로운 닉네임"
+            />
+            <Button onClick={saveNickname}>저장</Button>
+            <Button onClick={closeModal}>취소</Button>
+          </ModalContent>
+        </Modal>
+      )}
     </Wrapper>
   );
 };
@@ -114,6 +170,55 @@ const UserName = styled.div`
   text-align: center;
   line-height: 40px;
   background-color: transparent;
+`;
+
+const EditButton = styled.button`
+  margin-left: 10px;
+  padding: 0 10px;
+  height: 40px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #000;
+  border: 2px solid #a2e1db;
+  border-radius: 20px;
+  cursor: pointer;
+  background-color: transparent;
+
+  &:hover {
+    background-color: #a2e1db;
+    color: #fff;
+  }
+`;
+
+const ModalContent = styled.div`
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  text-align: center;
+`;
+
+const Input = styled.input`
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+`;
+
+const Button = styled.button`
+  padding: 10px 20px;
+  font-size: 16px;
+  margin: 5px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  background-color: #a2e1db;
+  color: #fff;
+
+  &:hover {
+    background-color: #80c7be;
+  }
 `;
 
 export default Header;

@@ -37,7 +37,7 @@ export const Quiz = () => {
 
       return () => clearInterval(timerId);
     } else if (timeLeft === 0 && quizData.length > 0) {
-      handleNextQuestion();
+      handleTimeOut();
     }
   }, [timeLeft]);
 
@@ -81,6 +81,18 @@ export const Quiz = () => {
     } else {
       handleNextQuestion();
     }
+  };
+
+  const handleTimeOut = () => {
+    const incompleteAnswers = quizData
+      .slice(currentQuestionIndex)
+      .map((question: any) => ({
+        questionId: question.questionId,
+        answer: "시간초과",
+      }));
+
+    const finalAnswers = [...answers, ...incompleteAnswers];
+    submitAnswers(finalAnswers);
   };
 
   const submitAnswers = async (

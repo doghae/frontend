@@ -7,9 +7,7 @@ export const Quiz = () => {
   const [token, setToken] = useState<string | null>(null);
   const [quizData, setQuizData] = useState<any[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState<
-    { questionId: number; answer: string }[]
-  >([]);
+  const [answers, setAnswers] = useState<{ questionId: number; answer: string }[]>([]);
   const [resultData, setResultData] = useState<any>(null);
   const [score, setScore] = useState<number>(0);
   const [timeOverQuestions, setTimeOverQuestions] = useState<number[]>([]);
@@ -64,8 +62,6 @@ export const Quiz = () => {
     if (currentQuestionIndex < quizData.length - 1) {
       setCurrentQuestionIndex(currentQuestionIndex + 1);
       setTimeLeft(quizData[currentQuestionIndex + 1].stage.timeLimit);
-    } else {
-      submitAnswers();
     }
   };
 
@@ -80,7 +76,13 @@ export const Quiz = () => {
     ];
     setAnswers(newAnswers);
 
-    handleNextQuestion();
+    if (currentQuestionIndex === quizData.length - 1) {
+      setTimeout(() => {
+        submitAnswers(newAnswers);
+      }, 0); // 상태 업데이트 후 호출하기 위해 setTimeout 사용
+    } else {
+      handleNextQuestion();
+    }
   };
 
   const handleTimeOut = () => {
@@ -95,10 +97,16 @@ export const Quiz = () => {
     setAnswers(newAnswers);
     setTimeOverQuestions([...timeOverQuestions, currentQuestion.questionId]);
 
-    handleNextQuestion();
+    if (currentQuestionIndex === quizData.length - 1) {
+      setTimeout(() => {
+        submitAnswers(newAnswers);
+      }, 0); // 상태 업데이트 후 호출하기 위해 setTimeout 사용
+    } else {
+      handleNextQuestion();
+    }
   };
 
-  const submitAnswers = async () => {
+  const submitAnswers = async (finalAnswers: { questionId: number; answer: string }[]) => {
     const pathSegments = window.location.pathname.split("/");
     const quizId = pathSegments[pathSegments.length - 1]; // URL의 마지막 부분을 가져옴
 
@@ -106,7 +114,7 @@ export const Quiz = () => {
       const response = await axios.post(
         `https://doghae.site/stage/${quizId}`,
         {
-          answers: answers,
+          answers: finalAnswers,
         },
         {
           headers: {
@@ -167,9 +175,7 @@ export const Quiz = () => {
                 <Option
                   key={choiceIndex}
                   onClick={() => handleChoiceClick(choice)}
-                  disabled={timeOverQuestions.includes(
-                    quizData[currentQuestionIndex].questionId
-                  )}
+                  disabled={timeOverQuestions.includes(quizData[currentQuestionIndex].questionId)}
                 >
                   {choiceIndex + 1}. {choice}
                 </Option>

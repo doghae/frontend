@@ -158,7 +158,7 @@ export const Quiz = () => {
 
     return (
       <ResultContainer>
-        <h1>수고하셨습니다 😊</h1>
+        <BigHeader>수고하셨습니다 😊</BigHeader>
         <ResultBox>
           {token && <UserName>{state.nickname} 님의 점수는</UserName>}
           <ResultDetail>
@@ -307,6 +307,12 @@ const MainButton = styled.button`
   &:hover {
     background-color: #0097a7;
   }
+`;
+
+const BigHeader = styled.h1`
+  font-size: 30px; /* 원하는 크기로 설정 */
+  font-weight: bold;
+  margin-bottom: 20px;
 `;
 
 export default Quiz;

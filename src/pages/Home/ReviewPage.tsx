@@ -37,7 +37,7 @@ export const ReviewPage = () => {
 
   const fetchQuestionData = async (questionId: number) => {
     try {
-      const response = await axios.get(`https://doghae.site/questions/${questionId}`, {
+      const response = await axios.get(`https://doghae.site/stage/${questionId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -58,18 +58,22 @@ export const ReviewPage = () => {
     setSelectedQuestion(null);
   };
 
-  const handleCorrectAnswer = async () => {
-    // 여기에 정답 제출 후 삭제하는 로직을 추가합니다.
-    try {
-      await axios.delete(`https://doghae.site/reviews/${selectedQuestion.questionId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setReviewData(reviewData.filter(item => item.questionId !== selectedQuestion.questionId));
-      handleModalClose();
-    } catch (error) {
-      console.error("정답 제출 실패", error);
+  const handleCorrectAnswer = async (choice: string) => {
+    const correct = selectedQuestion.answer === choice;
+    if (correct) {
+      try {
+        await axios.delete(`https://doghae.site/reviews/${selectedQuestion.questionId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setReviewData(reviewData.filter(item => item.questionId !== selectedQuestion.questionId));
+        handleModalClose();
+      } catch (error) {
+        console.error("정답 제출 실패", error);
+      }
+    } else {
+      alert("오답입니다. 다시 시도하세요.");
     }
   };
 
@@ -88,12 +92,17 @@ export const ReviewPage = () => {
           <ModalCloseButton />
           <ModalBody>
             {selectedQuestion && (
-              <div>
-                <Text>{selectedQuestion.problem}</Text>
-                {selectedQuestion.choices.map((choice: string, index: number) => (
-                  <Button key={index} onClick={() => handleCorrectAnswer()}>{choice}</Button>
-                ))}
-              </div>
+              <Container>
+                <QuestionHeader>문제</QuestionHeader>
+                <Question>{selectedQuestion.problem}</Question>
+                <Options>
+                  {selectedQuestion.choices.map((choice: string, index: number) => (
+                    <Option key={index} onClick={() => handleCorrectAnswer(choice)}>
+                      {choice}
+                    </Option>
+                  ))}
+                </Options>
+              </Container>
             )}
           </ModalBody>
           <ModalFooter>
@@ -117,6 +126,46 @@ const KeywordBox = styled(Box)`
   margin: 5px;
   background-color: #f5f5f5;
   border-radius: 5px;
+  cursor: pointer;
+  &:hover {
+    background-color: #e0e0e0;
+  }
+`;
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  font-family: "Arial, sans-serif";
+`;
+
+const QuestionHeader = styled.div`
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+`;
+
+const Question = styled.div`
+  margin-bottom: 10px;
+  text-align: center;
+`;
+
+const Options = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 400px;
+`;
+
+const Option = styled.button`
+  background-color: #f5f5f5;
+  border: none;
+  padding: 10px;
+  margin: 5px 0;
+  width: 100%;
+  text-align: left;
   cursor: pointer;
   &:hover {
     background-color: #e0e0e0;
